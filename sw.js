@@ -1,10 +1,10 @@
-const CACHE_VERSION = 'xskt-v51-pwa-v32-explain';
+const CACHE_VERSION = 'xskt-v51-pwa-v33-method';
 const APP_SHELL = [
   '/',
   '/index.html',
-  '/assets/style.v32.css',
-  '/assets/app.v32.js',
-  '/data/v51-2026-2030.v32.js',
+  '/assets/style.v33.css',
+  '/assets/app.v33.js',
+  '/data/v51-2026-2030.v33.js',
   '/manifest.webmanifest',
   '/icons/icon-192.png',
   '/icons/icon-512.png',

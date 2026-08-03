@@ -4,7 +4,7 @@
   const $ = id => document.getElementById(id);
 
   const VN_MONTHS = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
-  const screenTitles = {today:'Hôm nay', main:'4 ngày chính', calendar:'Lịch tháng', all:'Tất cả ngày'};
+  const screenTitles = {today:'Hôm nay', main:'4 ngày chính', calendar:'Lịch tháng', all:'Tất cả ngày', method:'Quy ước'};
   let activeScreen = 'today';
 
   function localISO(d = new Date()) {
@@ -48,6 +48,7 @@
     if (name==='main') renderMainDays();
     if (name==='calendar') renderCalendar();
     if (name==='all') renderAllDays();
+    if (name==='method') { /* static methodology screen */ }
     window.scrollTo({top:0,behavior:'instant'});
   }
   document.querySelectorAll('.bottom-nav button').forEach(btn => btn.addEventListener('click', () => setScreen(btn.dataset.screen)));

@@ -1,8 +1,8 @@
 {
-  "name": "XSKT V5.1 – Giải thích số",
+  "name": "XSKT V5.1 – Quy ước & Lịch",
   "short_name": "XSKT V5.1",
-  "description": "PWA V5.1 với giải thích chi tiết vì sao ngày và từng cặp số được chọn.",
-  "start_url": "/?v=32",
+  "description": "PWA V5.1 với tab giải thích hồ sơ cá nhân hóa, quy ước, công thức và cách chọn số.",
+  "start_url": "/?v=33",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0b1020",

@@ -10,11 +10,11 @@
   <meta name="description" content="V5.1 XSKT 2026–2030: hôm nay, 4 ngày chính và toàn bộ lịch theo dõi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="./assets/style.v32.css">
+  <link rel="stylesheet" href="./assets/style.v33.css">
   <title>XSKT V5.1</title>
 </head>
 <body>
-<div id="app"><div class="build-version">v3.2</div>
+<div id="app"><div class="build-version">v3.3</div>
   <header class="app-header">
     <div>
       <div class="eyebrow">XSKT · V5.1</div>
@@ -83,6 +83,135 @@
       <div id="allSummary" class="summary-line"></div>
       <div id="allDays" class="day-list compact-list"></div>
     </section>
+
+    <!-- METHOD -->
+    <section id="screen-method" class="screen">
+      <div class="method-hero">
+        <div class="method-kicker">V5.1 THUẦN ĐÔNG</div>
+        <h2>Quy ước & cách chọn</h2>
+        <p>Trang này mô tả đúng những dữ liệu và công thức đang được app sử dụng. Đây là quy ước nội bộ của V5.1, không phải xác suất xổ số.</p>
+      </div>
+
+      <section class="method-section">
+        <h3>1. Hồ sơ cá nhân hóa</h3>
+        <div class="profile-grid">
+          <div class="profile-item"><span>Họ tên</span><b>Nguyễn Khai Trí</b><em>Không dùng để tính điểm</em></div>
+          <div class="profile-item"><span>Ngày sinh</span><b>27/02/1995</b><em>Dùng để xác lập Tứ Trụ</em></div>
+          <div class="profile-item"><span>Giờ sinh</span><b>20:40</b><em>Dùng để xác lập trụ giờ</em></div>
+          <div class="profile-item"><span>Nơi sinh</span><b>Long Xuyên, An Giang</b><em>Dùng để xác định thời gian địa phương / UTC+7 khi lập hồ sơ</em></div>
+          <div class="profile-item wide"><span>Tứ Trụ nền đang khóa</span><b>Ất Hợi · Mậu Dần · Kỷ Sửu · Giáp Tuất</b><em>Mọi ngày 2026–2030 được so với cùng một hồ sơ này</em></div>
+          <div class="profile-item"><span>Nhật chủ</span><b>Kỷ Thổ</b><em>Nền chính của lớp Ngũ hành</em></div>
+          <div class="profile-item"><span>Giới tính</span><b>Nam</b><em>Hiện không đi vào công thức điểm V5.1</em></div>
+        </div>
+        <div class="method-note important">
+          <b>Tên có ảnh hưởng không?</b>
+          <span>Không. V5.1 đã loại bỏ numerology phương Tây, nên họ tên không sinh ra con số và không được cộng trọng số.</span>
+        </div>
+      </section>
+
+      <section class="method-section">
+        <h3>2. Điểm ngày V5 được tạo như thế nào?</h3>
+        <div class="formula-card">
+          <div class="formula-title">Điểm ngày V5</div>
+          <div class="formula-main"><b>55%</b> Bát Tự/Ngũ hành <i>+</i> <b>35%</b> Kinh Dịch/Bát Quái <i>+</i> <b>10%</b> đồng thuận</div>
+        </div>
+
+        <details class="method-details" open>
+          <summary>Bát Tự / Ngũ hành — 55%</summary>
+          <div class="weight-list">
+            <div><span>Hỷ/Dụng & khí ngày/tháng</span><b>36%</b></div>
+            <div><span>Hợp · Xung · Hại · Hình · Phá · Tam hợp/Tam hội với Tứ Trụ</span><b>27%</b></div>
+            <div><span>12 Trực</span><b>14%</b></div>
+            <div><span>Nạp âm ngày</span><b>13%</b></div>
+            <div><span>Khí lưu niên</span><b>10%</b></div>
+          </div>
+          <p class="method-copy">Các tỷ lệ trên là tỷ lệ <strong>bên trong phần Bát Tự 55%</strong>. Quy ước Hỷ/Dụng hiện tại ưu tiên Hỏa → Thổ, Kim nhẹ; Thủy và Mộc giảm điểm đối với nền Kỷ Thổ.</p>
+        </details>
+
+        <details class="method-details">
+          <summary>Kinh Dịch / Bát Quái — 35%</summary>
+          <div class="weight-list">
+            <div><span>Quan hệ Thể – Dụng</span><b>48%</b></div>
+            <div><span>Quẻ hỗ</span><b>22%</b></div>
+            <div><span>Quẻ biến</span><b>22%</b></div>
+            <div><span>Tứ Tượng</span><b>8%</b></div>
+          </div>
+          <p class="method-copy">Điểm cao hơn khi Dụng sinh Thể hoặc Thể–Dụng tỷ hòa; thấp hơn khi Dụng khắc Thể. Quẻ hỗ mô tả lớp trung gian, quẻ biến mô tả trạng thái sau hào động.</p>
+        </details>
+
+        <details class="method-details">
+          <summary>Đồng thuận — 10%</summary>
+          <p class="method-copy"><strong>Consensus</strong> dùng trong điểm V5 = 100 − |Điểm Bát Tự − Điểm Quẻ|. Hai hệ càng gần nhau thì phần đồng thuận càng cao.</p>
+          <p class="method-copy"><strong>Agreement</strong> hiển thị trên app là chỉ số riêng của V5.1: 45% Consensus + 27.5% Bát Tự + 27.5% Quẻ. Nó trả lời “các tín hiệu có nhất quán và đủ mạnh hay không?”, không phải xác suất trúng.</p>
+        </details>
+      </section>
+
+      <section class="method-section">
+        <h3>3. Quẻ ngày được lập theo quy ước nào?</h3>
+        <div class="method-note">
+          <b>Quy ước V5 chuẩn hóa theo Mai Hoa-style</b>
+          <span>Dùng số Địa Chi năm + tháng tiết khí + ngày dương + <strong>giờ Ngọ cố định (12:00)</strong> để sinh thượng quái, hạ quái và hào động.</span>
+        </div>
+        <div class="method-note warning">
+          <b>Giờ sinh 20:40 có được dùng để lập quẻ ngày không?</b>
+          <span>Không. Giờ sinh chỉ nằm trong Tứ Trụ cá nhân (trụ giờ Giáp Tuất). Quẻ của từng ngày dùng giờ Ngọ cố định để 1.826 ngày có thể so sánh nhất quán.</span>
+        </div>
+        <p class="method-copy">Đây là một quy ước tính toán được khóa cho V5, không được trình bày như “công thức Kinh Dịch duy nhất” hay một trường phái cổ điển duy nhất.</p>
+      </section>
+
+      <section class="method-section">
+        <h3>4. Từ ngày → chữ số → cặp số</h3>
+        <div class="pipeline">
+          <div class="pipe-box"><span>01</span><b>Tín hiệu ngày</b><small>Can-Chi ngày/tháng · Lục Thập Hoa Giáp</small></div>
+          <div class="pipe-arrow">↓</div>
+          <div class="pipe-box"><span>02</span><b>Tín hiệu quẻ</b><small>Quẻ chủ · quẻ hỗ · quẻ biến · hào động</small></div>
+          <div class="pipe-arrow">↓</div>
+          <div class="pipe-box"><span>03</span><b>Ngũ hành số</b><small>Hà Đồ · Lạc Thư · cộng hưởng Hỷ/Dụng</small></div>
+          <div class="pipe-arrow">↓</div>
+          <div class="pipe-box"><span>04</span><b>Xếp 00–99</b><small>Điểm hai chữ số + bonus/penalty + cộng hưởng quẻ</small></div>
+          <div class="pipe-arrow">↓</div>
+          <div class="pipe-box accent"><span>05</span><b>V5.1 chọn vai trò</b><small>Chủ 1 · Chủ 2 · Đảo/phụ · 2 số mở rộng</small></div>
+        </div>
+      </section>
+
+      <section class="method-section">
+        <h3>5. Điểm V5.1 của từng cặp</h3>
+        <div class="weight-list boxed">
+          <div><span>Thứ hạng cặp trong Top 6 của engine V5</span><b>48%</b></div>
+          <div><span>Chất lượng ngày V5</span><b>22%</b></div>
+          <div><span>Agreement</span><b>16%</b></div>
+          <div><span>Cặp đảo có được hỗ trợ hay không</span><b>9%</b></div>
+          <div><span>Đa dạng hai chữ số</span><b>5%</b></div>
+        </div>
+        <p class="method-copy">Ví dụ AB và BA cùng nằm trong Top 6 thì tín hiệu đảo được cộng mạnh hơn. Số kép có penalty nhẹ để engine không tự khóa quá nhiều vào 11/22/55/77/88…</p>
+      </section>
+
+      <section class="method-section">
+        <h3>6. Những thứ V5.1 KHÔNG dùng</h3>
+        <div class="not-used-list">
+          <span>✕ Họ tên để sinh số</span>
+          <span>✕ Chiêm tinh phương Tây / hành tinh</span>
+          <span>✕ Numerology Pythagorean / Life Path</span>
+          <span>✕ Kết quả xổ số các kỳ trước để chọn “hot/cold number”</span>
+          <span>✕ Tần suất số lịch sử để chỉnh dự báo tương lai</span>
+          <span>✕ Kết quả backtest 2023–2025 để tối ưu trọng số</span>
+        </div>
+      </section>
+
+      <section class="method-section">
+        <h3>7. Vì sao vẫn giữ backtest?</h3>
+        <div class="method-note warning">
+          <b>Backtest dùng để kiểm tra, không dùng để huấn luyện</b>
+          <span>Kiểm định XSMN 2023–2025 chưa xác nhận predictive edge có ý nghĩa thống kê. Vì vậy V5.1 được giữ nguyên thay vì sửa công thức để làm quá khứ đẹp hơn.</span>
+        </div>
+      </section>
+
+      <section class="method-section final-method">
+        <h3>8. Cách đọc app đúng</h3>
+        <p class="method-copy">“Ngày chính”, “V5 70”, “Agreement 80” hay “Điểm cặp 85” đều là <strong>thang xếp hạng nội bộ của mô hình</strong>. Chúng không có nghĩa là “70% hoặc 85% khả năng trúng”.</p>
+      </section>
+    </section>
+
   </main>
 
   <nav class="bottom-nav" aria-label="Điều hướng chính">
@@ -97,6 +226,9 @@
     </button>
     <button data-screen="all">
       <span class="nav-icon">☷</span><span>Tất cả ngày</span>
+    </button>
+    <button data-screen="method">
+      <span class="nav-icon">ⓘ</span><span>Quy ước</span>
     </button>
   </nav>
 
@@ -123,8 +255,8 @@
   </aside>
 </div>
 
-<script src="./data/v51-2026-2030.v32.js"></script>
-<script src="./assets/app.v32.js"></script>
+<script src="./data/v51-2026-2030.v33.js"></script>
+<script src="./assets/app.v33.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   let refreshing = false;
@@ -136,7 +268,7 @@ if ('serviceWorker' in navigator) {
   });
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js?v=32', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js?v=33', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.error('Service Worker registration failed:', err);

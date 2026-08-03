@@ -1,18 +1,33 @@
-# XSKT V5.1 PWA v3.2 — Explainable Numbers
+# XSKT V5.1 PWA v3.3 — Tab Quy ước
 
-Bản v3.2 bổ sung phần **Vì sao chọn từng số?**
+Bản v3.3 thêm tab **Quy ước**.
 
-Trong detail mỗi ngày có Top 6 gốc, tín hiệu quẻ, breakdown điểm V5.1 và lý do riêng cho từng chữ số/cặp.
+Tab này giải thích rõ:
 
-Deploy:
+- Hồ sơ cá nhân hóa đang dùng
+- Tên có / không có ảnh hưởng gì
+- Ngày sinh, giờ sinh, nơi sinh được dùng thế nào
+- Tứ Trụ nền
+- Công thức điểm V5
+- Công thức Bát Tự / Quẻ / Consensus / Agreement
+- Quy ước lập quẻ ngày
+- Vì sao quẻ ngày dùng giờ Ngọ 12:00, không dùng giờ sinh 20:40
+- Pipeline từ ngày → chữ số → 00–99 → Top 6 → vai trò V5.1
+- Trọng số cặp V5.1
+- Những dữ liệu KHÔNG dùng
+- Trạng thái backtest 2023–2025
+
+## Deploy
+
 ```bash
 rsync -av --delete --exclude='.git' ./ ../xskt-khaitringuyen-github-pages/
 cd ../xskt-khaitringuyen-github-pages
 git add .
-git commit -m "Add number explanations to XSKT V5.1 v3.2"
+git commit -m "Add methodology tab to XSKT V5.1 v3.3"
 git push origin main
 ```
 
-Mở `https://xskt.khaitringuyen.com/?v=32`. Nếu thấy `v3.2` ở góc trên là build mới.
+Mở:
+`https://xskt.khaitringuyen.com/?v=33`
 
-> Đây là giải thích logic nội bộ V5.1, không phải bằng chứng xác suất xổ số tăng lên.
+Thấy `v3.3` ở góc trên là đúng build mới.
