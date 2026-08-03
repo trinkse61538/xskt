@@ -1,56 +1,51 @@
-# V5.1 XSKT PWA 2026–2030
+# XSKT V5.1 PWA v2 — Tabbed Mobile App
 
-PWA dành cho `https://xskt.khaitringuyen.com`.
+Bản này thay giao diện dashboard dài bằng 3 tab chính:
 
-## Có gì mới so với bản web trước
+1. **Hôm nay**
+   - Trạng thái ngày hiện tại
+   - 3 số nổi bật
+   - V5 / Agreement / Hạng tháng
+   - Tóm tắt Can-Chi, 12 Trực, Thể/Dụng
+   - Bấm **Xem chi tiết hôm nay** để mở toàn bộ quẻ
 
-- Cài lên Home Screen như một app
-- `display: standalone` — mở không có thanh trình duyệt
-- Offline sau lần tải đầu tiên
-- Service Worker tự cache giao diện + dữ liệu 2026–2030
-- Icon 192 / 512 + Apple Touch Icon
-- Nút **Cài ứng dụng** trên trình duyệt hỗ trợ
-- Hướng dẫn riêng cho iPhone/iPad
-- Vẫn giữ đủ 4 ngày chính + toàn bộ ngày phụ
+2. **4 ngày chính**
+   - Điều hướng tháng trước / sau
+   - Chỉ hiện đúng 4 ngày ưu tiên trong tháng
+   - Mỗi ngày là một card gọn
 
-## File mới
+3. **Tất cả ngày**
+   - Lọc theo năm / tháng / Chính / Phụ A / Phụ B / Phụ C
+   - Search theo số, Can-Chi, quẻ
+   - Không dồn nội dung chuyên sâu vào list
 
-- `manifest.webmanifest`
-- `sw.js`
-- `offline.html`
-- `icons/icon-192.png`
-- `icons/icon-512.png`
-- `icons/apple-touch-icon.png`
+## Trang chi tiết
 
-## Update repo hiện tại
+Bấm một ngày bất kỳ sẽ mở bottom sheet riêng:
+- 5 số và điểm
+- V5 / Agreement / Tier / rank
+- Can-Chi / 12 Trực / Nạp âm
+- Quẻ chủ → quẻ hỗ → hào động → quẻ biến
+- Thể / Dụng
+- Đơn vị tham chiếu
 
-Giải nén package này và copy đè toàn bộ file vào repo `xskt`, sau đó:
+## PWA
+
+- Add to Home Screen
+- Standalone
+- Offline sau lần tải đầu
+- Service Worker cache version: `xskt-v51-pwa-v2-tabbed-app`
+
+## Update repo đang dùng
+
+Copy đè toàn bộ source này vào folder repo `xskt-khaitringuyen-github-pages`, sau đó:
 
 ```bash
 git add .
-git commit -m "Upgrade XSKT V5.1 to PWA"
-git push
+git commit -m "Redesign XSKT V5.1 as tabbed PWA"
+git push origin main
 ```
 
-GitHub Pages sẽ deploy lại tự động.
+Trên iPhone: Safari → Chia sẻ → Thêm vào Màn hình chính.
 
-## iPhone
-
-1. Mở `https://xskt.khaitringuyen.com` bằng **Safari**
-2. Bấm nút **Share / Chia sẻ**
-3. Chọn **Add to Home Screen / Thêm vào Màn hình chính**
-4. Mở icon XSKT V5.1 vừa tạo
-
-## Android / Chrome
-
-Nếu đủ điều kiện PWA, website sẽ hiện nút **Cài ứng dụng**. Hoặc dùng menu Chrome → **Install app / Add to Home Screen**.
-
-## Lưu ý update cache
-
-Khi cập nhật app lớn, đổi biến `CACHE_VERSION` đầu file `sw.js`, ví dụ:
-
-```js
-const CACHE_VERSION = 'xskt-v51-pwa-2026-2030-v2';
-```
-
-Sau khi push, Service Worker mới sẽ thay cache cũ.
+> V5.1 là hệ xếp hạng huyền học cá nhân hóa. Backtest 2023–2025 chưa xác nhận predictive edge có ý nghĩa thống kê.

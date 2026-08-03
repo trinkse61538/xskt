@@ -1,7 +1,7 @@
 {
-  "name": "V5.1 XSKT 2026–2030",
+  "name": "XSKT V5.1 – Lịch & Hôm nay",
   "short_name": "XSKT V5.1",
-  "description": "Theo dõi 4 ngày chính và toàn bộ ngày phụ V5.1 từ 2026 đến 2030.",
+  "description": "Ứng dụng V5.1: Hôm nay, 4 ngày chính và toàn bộ lịch 2026–2030.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

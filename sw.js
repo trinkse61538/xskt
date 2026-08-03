@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'xskt-v51-pwa-2026-2030-v1';
+const CACHE_VERSION = 'xskt-v51-pwa-v2-tabbed-app';
 const APP_SHELL = [
   '/',
   '/index.html',
