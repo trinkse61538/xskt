@@ -207,6 +207,18 @@
     $('allDays').innerHTML=rows.length?rows.map(dayCard).join(''):'<div class="empty">Không có kết quả phù hợp.</div>';
   }
 
+
+  function componentBar(label,value,maxValue,help){
+    const pct=Math.max(3,Math.min(100,(value/maxValue)*100));
+    return `<div class="component-row"><div class="component-head"><span>${label}</span><b>+${value.toFixed(1)}</b></div><div class="component-track"><i style="width:${pct}%"></i></div><div class="component-help">${help}</div></div>`;
+  }
+  function reasonList(items){
+    if(!items||!items.length)return '<div class="muted-small">Không có tín hiệu nổi bật.</div>';
+    return `<div class="reason-list">${items.map(x=>`<div class="reason-item"><span class="reason-source">${safe(x.source)}</span><span class="reason-text">${safe(x.text)}</span><b class="${x.value>=0?'plus':'minus'}">${x.value>=0?'+':''}${x.value}</b></div>`).join('')}</div>`;
+  }
+  function numberExplanationCard(n,idx){
+    return `<article class="why-number ${idx===0?'primary':''}"><div class="why-head"><div class="why-num">${safe(n.number)}</div><div><strong>${safe(n.role)}</strong><span>Hạng V5 #${n.v5Rank} · Điểm V5.1 ${n.v51Score}</span></div></div><div class="why-summary"><b>Vì sao được chọn?</b><span>Cặp ${safe(n.number)} đứng hạng #${n.v5Rank} trong engine số thuần Đông của ngày. V5.1 sau đó cộng thêm chất lượng ngày, độ đồng thuận, hỗ trợ số đảo và độ đa dạng chữ số.</span></div><details class="why-details" ${idx===0?'open':''}><summary>Phân rã điểm V5.1</summary><div class="component-box">${componentBar('Thứ hạng trong Top 6',n.components.rank,48,'48% trọng số — cặp đứng càng cao trong engine V5 càng mạnh.')}${componentBar('Chất lượng ngày',n.components.day,22,'22% trọng số — lấy từ điểm V5 của ngày.')}${componentBar('Độ đồng thuận',n.components.agreement,16,'16% trọng số — Bát Tự và Quẻ càng nhất quán càng được cộng.')}${componentBar('Hỗ trợ số đảo',n.components.reverse,9,'9% trọng số — xem cặp đảo có đồng thời nằm trong Top 6 hay không.')}${componentBar('Đa dạng chữ số',n.components.diversity,5,'5% trọng số — tránh khóa quá mạnh vào số kép.')}</div></details><details class="why-details"><summary>Chữ số ${n.digits[0].digit} (${safe(n.digits[0].element)}) được hỗ trợ bởi gì?</summary>${reasonList(n.digits[0].positive)}${n.digits[0].negative.length?`<div class="negative-block"><b>Yếu tố giảm điểm</b>${reasonList(n.digits[0].negative)}</div>`:''}</details><details class="why-details"><summary>Chữ số ${n.digits[1].digit} (${safe(n.digits[1].element)}) được hỗ trợ bởi gì?</summary>${reasonList(n.digits[1].positive)}${n.digits[1].negative.length?`<div class="negative-block"><b>Yếu tố giảm điểm</b>${reasonList(n.digits[1].negative)}</div>`:''}</details><details class="why-details"><summary>Bonus / penalty của cặp</summary>${reasonList(n.pairBonuses)}<div class="reverse-note">${safe(n.reverseText)}</div></details></article>`;
+  }
   // ---------------- DETAIL ----------------
   const overlay=$('detailOverlay');
   function openDetail(date) {
@@ -221,6 +233,10 @@
           `).join('')}
         </div>
       </section>
+
+      <section class="detail-section"><h3>Vì sao ngày này?</h3><div class="explain-callout"><b>${safe(r.canChi)} · ${safe(r.td)}</b><span>Điểm ngày V5 = ${r.v5}, Độ đồng thuận = ${r.agreement}. Engine số gom tín hiệu từ Can-Chi ngày/tháng, Lục Thập Hoa Giáp, Hà Đồ/Lạc Thư, quẻ chủ, quẻ hỗ, quẻ biến và hào động.</span></div><div class="signal-chips">${r.explain.daySignals.guaDigits.map(x=>`<span>${safe(x.source)}: <b>${x.digit}</b></span>`).join('')}</div><div class="top6-line"><span>Top 6 gốc của ngày</span><b>${r.explain.top6.join(' · ')}</b></div></section>
+
+      <section class="detail-section"><h3>Vì sao chọn từng số?</h3><div class="why-list">${r.explain.numbers.map(numberExplanationCard).join('')}</div></section>
       <section class="detail-section">
         <h3>Điểm & xếp hạng</h3>
         <div class="info-list">
