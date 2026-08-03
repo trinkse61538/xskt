@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="V5.1 XSKT 2026–2030: 4 ngày chính mỗi tháng và toàn bộ ngày phụ để theo dõi.">
+  <title>V5.1 XSKT 2026–2030</title>
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+  <main class="wrap">
+    <header class="hero">
+      <div>
+        <div class="eyebrow">XSKT · V5.1</div>
+        <h1>V5.1 Full 2026–2030</h1>
+        <p class="sub">
+          4 ngày chính mỗi tháng + toàn bộ ngày phụ để theo dõi.
+          Công thức V5.1 được giữ nguyên, không tối ưu theo backtest.
+        </p>
+      </div>
+      <a class="domain-pill" href="https://xskt.khaitringuyen.com">xskt.khaitringuyen.com</a>
+    </header>
+
+    <section class="controls" aria-label="Bộ lọc">
+      <select id="year" aria-label="Năm"></select>
+      <select id="month" aria-label="Tháng"></select>
+      <select id="type" aria-label="Loại ngày">
+        <option value="ALL">Tất cả ngày</option>
+        <option value="CHÍNH">Chỉ ngày chính</option>
+        <option value="PHỤ">Tất cả ngày phụ</option>
+        <option value="PHỤ A">Phụ A</option>
+        <option value="PHỤ B">Phụ B</option>
+        <option value="PHỤ C">Phụ C</option>
+      </select>
+      <input id="search" type="search" placeholder="Tìm số, Can-Chi, quẻ..." autocomplete="off">
+    </section>
+
+    <section class="stats" id="stats" aria-label="Tổng quan"></section>
+    <section class="grid" id="grid" aria-live="polite"></section>
+
+    <footer class="note">
+      V5.1 là hệ xếp hạng huyền học cá nhân hóa, không phải xác suất dự đoán xổ số.
+      Backtest 2023–2025 chưa xác nhận predictive edge có ý nghĩa thống kê.
+    </footer>
+  </main>
+
+  <script src="./data/v51-2026-2030.js"></script>
+  <script src="./assets/app.js"></script>
+</body>
+</html>
