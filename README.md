@@ -1,44 +1,47 @@
-# XSKT V5.1 PWA v3 — Calendar Dương/Âm
+# XSKT V5.1 PWA v3.1 — Cache Fix
 
-Bản v3 có 4 tab:
+Bản v3.1 sửa lỗi HTML mới bị ghép với CSS/JS cũ do cache Service Worker.
 
-1. **Hôm nay**
-2. **4 ngày chính**
-3. **Lịch tháng**
-4. **Tất cả ngày**
+## Cách sửa triệt để
 
-## Lịch tháng
-- Grid Thứ 2 → Chủ Nhật
-- Ngày dương hiển thị lớn
-- Ngày âm hiển thị nhỏ
-- Ngày mùng 1 âm hiển thị cả tháng âm
-- Màu trạng thái: Chính / Phụ A / Phụ B / Phụ C
-- Điểm V5 nhỏ ở góc
-- Bấm ngày mở detail bottom sheet
+Asset đã được đổi tên:
+- `assets/style.v31.css`
+- `assets/app.v31.js`
+- `data/v51-2026-2030.v31.js`
 
-## Ngày âm
-Dữ liệu 2026–2030 đã được precompute theo lịch âm Việt Nam UTC+7.
-Đã kiểm tra các mốc Tết:
-- 17/02/2026 = 01/01 AL
-- 06/02/2027 = 01/01 AL
-- 26/01/2028 = 01/01 AL
-- 13/02/2029 = 01/01 AL
-- 02/02/2030 = 01/01 AL
+Service Worker:
+- cache version `xskt-v51-pwa-v31-cachefix`
+- network-first cho toàn bộ asset
+- `skipWaiting()` + `clients.claim()`
+- app tự reload một lần khi Service Worker mới takeover
 
-## Deploy vào repo hiện tại
+Ở góc phải trên cùng có chữ rất nhỏ `v3.1`.
+Nếu thấy `v3.1`, bạn đang chạy đúng build mới.
+
+## Deploy
+
+Từ folder package này:
 
 ```bash
-rsync -av --exclude='.git' ./ ../xskt-khaitringuyen-github-pages/
+rsync -av --delete --exclude='.git' ./ ../xskt-khaitringuyen-github-pages/
 cd ../xskt-khaitringuyen-github-pages
+
 git add .
-git commit -m "Add lunar calendar tab to XSKT V5.1 PWA"
+git commit -m "Fix PWA cache and calendar assets v3.1"
 git push origin main
 ```
 
-Service Worker cache version:
-`xskt-v51-pwa-v3-lunar-calendar`
+`--delete` rất quan trọng trong lần này: nó xóa asset cũ khỏi repo để tránh GitHub Pages còn phục vụ nhầm file.
 
-## Ghi chú lịch Việt Nam 2030
+## Nếu iPhone vẫn giữ bản cũ
 
-Năm 2030 có khác biệt 1 ngày giữa một số lịch quốc tế và lịch âm Việt Nam do múi giờ.
-Bản app dùng UTC+7 theo lịch Việt Nam: **02/02/2030 = 01/01/2030 âm lịch**.
+Safari:
+1. Mở `https://xskt.khaitringuyen.com/?v=31`
+2. Refresh một lần.
+3. Nếu app Home Screen đang mở, đóng hoàn toàn rồi mở lại.
+
+Nếu vẫn không đổi:
+Settings → Safari → Advanced → Website Data → tìm `khaitringuyen.com` → Delete.
+Sau đó mở lại website và Add to Home Screen.
+
+Không cần làm bước xóa Website Data nếu đã thấy chữ `v3.1` ở góc trên.

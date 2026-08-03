@@ -205,3 +205,6 @@ input[type=search]{margin-top:9px}
   .bottom-nav button{font-size:9px}
   .nav-icon{font-size:19px}
 }
+
+.build-version{position:fixed;right:7px;top:calc(4px + env(safe-area-inset-top,0px));z-index:50;
+font-size:8px;color:#52627a;pointer-events:none;letter-spacing:.04em}

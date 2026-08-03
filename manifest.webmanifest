@@ -1,8 +1,8 @@
 {
-  "name": "XSKT V5.1 – Dương & Âm lịch",
+  "name": "XSKT V5.1 – Lịch Dương Âm",
   "short_name": "XSKT V5.1",
   "description": "PWA V5.1 với Hôm nay, 4 ngày chính, lịch tháng dương/âm và toàn bộ ngày 2026–2030.",
-  "start_url": "/",
+  "start_url": "/?v=31",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0b1020",
@@ -22,5 +22,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "id": "/?app=xskt-v51"
 }
