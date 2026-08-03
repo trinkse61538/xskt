@@ -86,3 +86,36 @@
   search.addEventListener('input', render);
   render();
 })();
+
+// PWA install experience
+let deferredInstallPrompt = null;
+const installBtn = document.getElementById('installBtn');
+const iosInstallHint = document.getElementById('iosInstallHint');
+
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+if (isIOS && !isStandalone && iosInstallHint) {
+  iosInstallHint.hidden = false;
+}
+
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  if (installBtn && !isStandalone) installBtn.hidden = false;
+});
+
+if (installBtn) {
+  installBtn.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    installBtn.hidden = true;
+  });
+}
+
+window.addEventListener('appinstalled', () => {
+  if (installBtn) installBtn.hidden = true;
+  if (iosInstallHint) iosInstallHint.hidden = true;
+});

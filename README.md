@@ -1,48 +1,56 @@
-# V5.1 XSKT 2026–2030
+# V5.1 XSKT PWA 2026–2030
 
-Source dành cho GitHub Pages của `xskt.khaitringuyen.com`.
+PWA dành cho `https://xskt.khaitringuyen.com`.
 
-## Cấu trúc
+## Có gì mới so với bản web trước
 
-- `index.html` – trang chính
-- `assets/style.css` – giao diện
-- `assets/app.js` – filter/render app
-- `data/v51-2026-2030.js` – dữ liệu 1.826 ngày
-- `CNAME` – custom domain `xskt.khaitringuyen.com`
-- `.nojekyll` – yêu cầu GitHub Pages phục vụ file tĩnh nguyên bản
+- Cài lên Home Screen như một app
+- `display: standalone` — mở không có thanh trình duyệt
+- Offline sau lần tải đầu tiên
+- Service Worker tự cache giao diện + dữ liệu 2026–2030
+- Icon 192 / 512 + Apple Touch Icon
+- Nút **Cài ứng dụng** trên trình duyệt hỗ trợ
+- Hướng dẫn riêng cho iPhone/iPad
+- Vẫn giữ đủ 4 ngày chính + toàn bộ ngày phụ
 
-## Publish GitHub Pages
+## File mới
+
+- `manifest.webmanifest`
+- `sw.js`
+- `offline.html`
+- `icons/icon-192.png`
+- `icons/icon-512.png`
+- `icons/apple-touch-icon.png`
+
+## Update repo hiện tại
+
+Giải nén package này và copy đè toàn bộ file vào repo `xskt`, sau đó:
 
 ```bash
-cd /duong-dan/toi/xskt-khaitringuyen-github-pages
-
-git init
 git add .
-git commit -m "Deploy V5.1 XSKT 2026-2030"
-
-git branch -M main
-git remote add origin git@github.com:YOUR_GITHUB_USERNAME/YOUR_REPO.git
-git push -u origin main
+git commit -m "Upgrade XSKT V5.1 to PWA"
+git push
 ```
 
-Sau đó trên GitHub:
-1. Settings → Pages
-2. Build and deployment → Deploy from a branch
-3. Branch `main` / root
-4. Custom domain: `xskt.khaitringuyen.com`
+GitHub Pages sẽ deploy lại tự động.
 
-## DNS
+## iPhone
 
-Ở DNS của `khaitringuyen.com`, tạo:
+1. Mở `https://xskt.khaitringuyen.com` bằng **Safari**
+2. Bấm nút **Share / Chia sẻ**
+3. Chọn **Add to Home Screen / Thêm vào Màn hình chính**
+4. Mở icon XSKT V5.1 vừa tạo
 
-- Type: `CNAME`
-- Name/Host: `xskt`
-- Target: `YOUR_GITHUB_USERNAME.github.io`
+## Android / Chrome
 
-Sau khi GitHub xác nhận domain, bật **Enforce HTTPS**.
+Nếu đủ điều kiện PWA, website sẽ hiện nút **Cài ứng dụng**. Hoặc dùng menu Chrome → **Install app / Add to Home Screen**.
 
-## Cập nhật dữ liệu sau này
+## Lưu ý update cache
 
-Thay file `data/v51-2026-2030.js`, commit và push lại. Giao diện không cần build.
+Khi cập nhật app lớn, đổi biến `CACHE_VERSION` đầu file `sw.js`, ví dụ:
 
-> Lưu ý: V5.1 là hệ xếp hạng huyền học cá nhân hóa; backtest 2023–2025 chưa xác nhận predictive edge có ý nghĩa thống kê.
+```js
+const CACHE_VERSION = 'xskt-v51-pwa-2026-2030-v2';
+```
+
+Sau khi push, Service Worker mới sẽ thay cache cũ.

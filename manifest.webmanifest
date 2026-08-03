@@ -1,0 +1,26 @@
+{
+  "name": "V5.1 XSKT 2026–2030",
+  "short_name": "XSKT V5.1",
+  "description": "Theo dõi 4 ngày chính và toàn bộ ngày phụ V5.1 từ 2026 đến 2030.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "orientation": "portrait-primary",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
