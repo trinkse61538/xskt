@@ -1,8 +1,8 @@
 {
-  "name": "XSKT V5.1 – Quy ước & Lịch",
+  "name": "XSKT V5.1 – Lịch & Đài",
   "short_name": "XSKT V5.1",
-  "description": "PWA V5.1 với tab giải thích hồ sơ cá nhân hóa, quy ước, công thức và cách chọn số.",
-  "start_url": "/?v=33",
+  "description": "PWA V5.1 có lịch đài XSMN theo ngày và Station Layer từ backtest 2020–2025.",
+  "start_url": "/?v=34",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0b1020",

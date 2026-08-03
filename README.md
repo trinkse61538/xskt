@@ -1,33 +1,16 @@
-# XSKT V5.1 PWA v3.3 — Tab Quy ước
+# XSKT V5.1 PWA v3.4 — Station Layer
 
-Bản v3.3 thêm tab **Quy ước**.
+Bản v3.4 tự xác định các đài XSMN theo ngày và xếp hạng đài bằng historical compatibility của bộ 3 core V5.1 trên dữ liệu 2020–2025.
 
-Tab này giải thích rõ:
-
-- Hồ sơ cá nhân hóa đang dùng
-- Tên có / không có ảnh hưởng gì
-- Ngày sinh, giờ sinh, nơi sinh được dùng thế nào
-- Tứ Trụ nền
-- Công thức điểm V5
-- Công thức Bát Tự / Quẻ / Consensus / Agreement
-- Quy ước lập quẻ ngày
-- Vì sao quẻ ngày dùng giờ Ngọ 12:00, không dùng giờ sinh 20:40
-- Pipeline từ ngày → chữ số → 00–99 → Top 6 → vai trò V5.1
-- Trọng số cặp V5.1
-- Những dữ liệu KHÔNG dùng
-- Trạng thái backtest 2023–2025
-
-## Deploy
-
+Deploy:
 ```bash
-rsync -av --delete --exclude='.git' ./ ../xskt-khaitringuyen-github-pages/
+rsync -av --exclude='.git' ./ ../xskt-khaitringuyen-github-pages/
 cd ../xskt-khaitringuyen-github-pages
 git add .
-git commit -m "Add methodology tab to XSKT V5.1 v3.3"
+git commit -m "Add XSMN station layer to V5.1 v3.4"
 git push origin main
 ```
 
-Mở:
-`https://xskt.khaitringuyen.com/?v=33`
+Mở `https://xskt.khaitringuyen.com/?v=34`.
 
-Thấy `v3.3` ở góc trên là đúng build mới.
+Lưu ý: lịch 2027–2030 đang giả định lịch tuần XSMN hiện hành 2026 không đổi.

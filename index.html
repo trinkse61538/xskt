@@ -10,11 +10,11 @@
   <meta name="description" content="V5.1 XSKT 2026–2030: hôm nay, 4 ngày chính và toàn bộ lịch theo dõi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="./assets/style.v33.css">
+  <link rel="stylesheet" href="./assets/style.v34.css">
   <title>XSKT V5.1</title>
 </head>
 <body>
-<div id="app"><div class="build-version">v3.3</div>
+<div id="app"><div class="build-version">v3.4</div>
   <header class="app-header">
     <div>
       <div class="eyebrow">XSKT · V5.1</div>
@@ -206,8 +206,34 @@
         </div>
       </section>
 
+
+      <section class="method-section">
+        <h3>8. Lớp chọn đài XSMN</h3>
+        <div class="method-note">
+          <b>App xác định đài theo thứ trong tuần</b>
+          <span>T2: TP.HCM/Đồng Tháp/Cà Mau · T3: Bến Tre/Vũng Tàu/Bạc Liêu · T4: Đồng Nai/Cần Thơ/Sóc Trăng · T5: Tây Ninh/An Giang/Bình Thuận · T6: Vĩnh Long/Bình Dương/Trà Vinh · T7: TP.HCM/Long An/Bình Phước/Hậu Giang · CN: Tiền Giang/Kiên Giang/Đà Lạt.</span>
+        </div>
+        <div class="method-note warning">
+          <b>Lịch 2027–2030 là giả định</b>
+          <span>App đang lặp lại lịch tuần hiện hành 2026. Nếu cơ quan xổ số thay lịch trong tương lai, cần cập nhật cấu hình lịch đài.</span>
+        </div>
+        <details class="method-details" open>
+          <summary>Đài được xếp hạng dựa trên gì?</summary>
+          <p class="method-copy">Mặc định dùng bộ 3 core V5.1: <strong>Chủ 1 + Chủ 2 + Đảo/phụ</strong>. Với từng đài, app tính hit-rate lịch sử của bộ này trên các kỳ thực tế 2020–2025 rồi trừ random baseline của từng kỳ.</p>
+          <p class="method-copy">2020–2024 được dùng làm cửa sổ lịch sử; 2025 được giữ riêng để xem tín hiệu có tái lập hay không. Nếu 2025 đảo dấu, Index bị giảm độ tin cậy.</p>
+        </details>
+        <details class="method-details">
+          <summary>Station Index có phải xác suất?</summary>
+          <p class="method-copy">Không. Index chỉ được scale quanh 50 và giới hạn trong vùng 35–65 để tiện xếp hạng. <strong>Index 60 không có nghĩa là 60% khả năng trúng.</strong></p>
+        </details>
+        <div class="method-note important">
+          <b>Khi nào app nói “Ưu tiên”?</b>
+          <span>Chỉ khi đài đứng đầu nhóm và excess hit-rate Top 3 cùng dương ở 2020–2024 lẫn holdout 2025. Nếu không ổn định, app sẽ ghi “Xếp #1 lịch sử” hoặc “Không có đài ưu tiên rõ ràng”.</span>
+        </div>
+      </section>
+
       <section class="method-section final-method">
-        <h3>8. Cách đọc app đúng</h3>
+        <h3>9. Cách đọc app đúng</h3>
         <p class="method-copy">“Ngày chính”, “V5 70”, “Agreement 80” hay “Điểm cặp 85” đều là <strong>thang xếp hạng nội bộ của mô hình</strong>. Chúng không có nghĩa là “70% hoặc 85% khả năng trúng”.</p>
       </section>
     </section>
@@ -255,8 +281,8 @@
   </aside>
 </div>
 
-<script src="./data/v51-2026-2030.v33.js"></script>
-<script src="./assets/app.v33.js"></script>
+<script src="./data/v51-2026-2030.v34.js"></script>
+<script src="./assets/app.v34.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   let refreshing = false;
@@ -268,7 +294,7 @@ if ('serviceWorker' in navigator) {
   });
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js?v=33', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js?v=34', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.error('Service Worker registration failed:', err);
