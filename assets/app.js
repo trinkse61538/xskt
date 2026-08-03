@@ -4,7 +4,7 @@
   const $ = id => document.getElementById(id);
 
   const VN_MONTHS = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
-  const screenTitles = {today:'Hôm nay', main:'4 ngày chính', all:'Tất cả ngày'};
+  const screenTitles = {today:'Hôm nay', main:'4 ngày chính', calendar:'Lịch tháng', all:'Tất cả ngày'};
   let activeScreen = 'today';
 
   function localISO(d = new Date()) {
@@ -14,6 +14,10 @@
   function fmtDate(iso) {
     const [y,m,d]=iso.split('-');
     return `${d}/${m}/${y}`;
+  }
+  function lunarLabel(r, full=false) {
+    const leap = r.lunarLeap ? ' nhuận' : '';
+    return full ? `${r.lunarDay}/${r.lunarMonth}/${r.lunarYear}${leap}` : `${r.lunarDay}/${r.lunarMonth}${r.lunarLeap?'N':''}`;
   }
   function statusClass(s) {
     return s==='CHÍNH'?'status-main':s==='PHỤ A'?'status-pa':s==='PHỤ B'?'status-pb':'status-pc';
@@ -42,6 +46,7 @@
     $('screenTitle').textContent = screenTitles[name];
     if (name==='today') renderToday();
     if (name==='main') renderMainDays();
+    if (name==='calendar') renderCalendar();
     if (name==='all') renderAllDays();
     window.scrollTo({top:0,behavior:'instant'});
   }
@@ -63,7 +68,7 @@
         <div class="hero-top">
           <div>
             <div class="eyebrow">${isActualToday?'HÔM NAY':'NGÀY GẦN NHẤT TRONG DỮ LIỆU'} · ${safe(r.dow)}</div>
-            <div class="hero-date">${fmtDate(r.date)}</div>
+            <div class="hero-date">${fmtDate(r.date)}</div><div class="lunar-hero">Âm lịch · ${lunarLabel(r,true)}</div>
           </div>
           <span class="status-pill ${statusClass(r.status)}">${safe(r.status)}</span>
         </div>
@@ -81,7 +86,7 @@
 
       <div class="section-title">Tóm tắt nhanh</div>
       <div class="quick-grid">
-        <div class="quick-card"><span>Can-Chi</span><b>${safe(r.canChi)}</b></div>
+        <div class="quick-card"><span>Âm lịch</span><b>${lunarLabel(r,true)}</b></div><div class="quick-card"><span>Can-Chi</span><b>${safe(r.canChi)}</b></div>
         <div class="quick-card"><span>12 Trực</span><b>${safe(r.officer)}</b></div>
         <div class="quick-card"><span>Thể / Dụng</span><b>${safe(r.td)}</b></div>
         <div class="quick-card"><span>Nhóm theo dõi</span><b>${safe(r.tracking)}</b></div>
@@ -118,7 +123,7 @@
             <span class="small-pill">V5 ${r.v5}</span>
           </div>
           <div class="mini-picks">${r.picks.slice(0,5).map(x=>`<span class="mini-num">${safe(x)}</span>`).join('')}</div>
-          <div class="day-sub">${safe(r.canChi)} · ${safe(r.td)}</div>
+          <div class="day-sub">Âm ${lunarLabel(r)} · ${safe(r.canChi)} · ${safe(r.td)}</div>
         </div>
         <div class="chevron">›</div>
       </article>`;
@@ -128,6 +133,48 @@
     const rows = DATA.filter(r=>r.y===mainYear && r.m===mainMonth && r.status==='CHÍNH')
                      .sort((a,b)=>a.date.localeCompare(b.date));
     $('mainDays').innerHTML = rows.length ? rows.map(dayCard).join('') : '<div class="empty">Không có dữ liệu.</div>';
+  }
+
+
+  // ---------------- CALENDAR ----------------
+  let calYear = now.getFullYear()>=2026 && now.getFullYear()<=2030 ? now.getFullYear() : 2026;
+  let calMonth = now.getFullYear()>=2026 && now.getFullYear()<=2030 ? now.getMonth()+1 : 1;
+
+  function shiftCalendar(delta){
+    calMonth += delta;
+    if(calMonth<1){calMonth=12;calYear--}
+    if(calMonth>12){calMonth=1;calYear++}
+    if(calYear<2026){calYear=2026;calMonth=1}
+    if(calYear>2030){calYear=2030;calMonth=12}
+    renderCalendar();
+  }
+  $('calPrev').addEventListener('click',()=>shiftCalendar(-1));
+  $('calNext').addEventListener('click',()=>shiftCalendar(1));
+
+  function calendarCell(r, isToday){
+    const cls = r.status==='CHÍNH'?'cal-main':r.status==='PHỤ A'?'cal-pa':r.status==='PHỤ B'?'cal-pb':'cal-pc';
+    const lunarMonthMark = r.lunarDay===1 ? `/${r.lunarMonth}${r.lunarLeap?'N':''}` : '';
+    return `<button class="calendar-cell ${cls} ${isToday?'today':''}" data-open="${r.date}">
+      <span class="solar-day">${r.date.slice(8,10).replace(/^0/,'')}</span>
+      <span class="lunar-day">${r.lunarDay}${lunarMonthMark}</span>
+      <span class="cal-score">${r.v5}</span>
+    </button>`;
+  }
+
+  function renderCalendar(){
+    $('calPeriod').textContent=`${VN_MONTHS[calMonth-1]} ${calYear}`;
+    const first=new Date(calYear,calMonth-1,1);
+    const lastDay=new Date(calYear,calMonth,0).getDate();
+    const mondayIndex=(first.getDay()+6)%7; // Mon=0
+    let html='';
+    for(let i=0;i<mondayIndex;i++) html+='<div class="calendar-cell blank"></div>';
+    const todayISO=localISO();
+    for(let day=1;day<=lastDay;day++){
+      const iso=`${calYear}-${String(calMonth).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+      const r=byDate.get(iso);
+      html+=r?calendarCell(r,iso===todayISO):'<div class="calendar-cell blank"></div>';
+    }
+    $('calendarGrid').innerHTML=html;
   }
 
   // ---------------- ALL DAYS ----------------
@@ -164,7 +211,7 @@
   const overlay=$('detailOverlay');
   function openDetail(date) {
     const r=byDate.get(date); if(!r)return;
-    $('detailMeta').textContent=`${r.dow} · ${fmtDate(r.date)} · ${r.status}`;
+    $('detailMeta').textContent=`${r.dow} · ${fmtDate(r.date)} · Âm ${lunarLabel(r)} · ${r.status}`;
     $('detailTitle').textContent=scoreLabel(r);
     $('detailBody').innerHTML=`
       <section class="detail-section">
@@ -186,6 +233,7 @@
       <section class="detail-section">
         <h3>Can-Chi & lịch</h3>
         <div class="info-list">
+          <div class="info-item"><span>Ngày âm</span><b>${lunarLabel(r,true)}</b></div>
           <div class="info-item"><span>Can-Chi</span><b>${safe(r.canChi)}</b></div>
           <div class="info-item"><span>12 Trực</span><b>${safe(r.officer)}</b></div>
           <div class="info-item"><span>Nạp âm</span><b>${safe(r.nayin)}</b></div>
@@ -237,5 +285,5 @@
   window.addEventListener('appinstalled',()=>{installBtn.hidden=true;iosHint.hidden=true});
 
   // Initial render
-  renderToday(); renderMainDays(); renderAllDays();
+  renderToday(); renderMainDays(); renderCalendar(); renderAllDays();
 })();

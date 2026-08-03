@@ -43,6 +43,27 @@
       <div id="mainDays" class="day-list"></div>
     </section>
 
+
+    <!-- CALENDAR -->
+    <section id="screen-calendar" class="screen">
+      <div class="period-toolbar">
+        <button id="calPrev" class="round-btn" aria-label="Tháng trước">‹</button>
+        <button id="calPeriod" class="period-label"></button>
+        <button id="calNext" class="round-btn" aria-label="Tháng sau">›</button>
+      </div>
+      <div class="calendar-legend">
+        <span><i class="legend-dot main"></i>Chính</span>
+        <span><i class="legend-dot pa"></i>Phụ A</span>
+        <span><i class="legend-dot pb"></i>Phụ B</span>
+        <span><i class="legend-dot pc"></i>Phụ C</span>
+      </div>
+      <div class="weekday-row">
+        <span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>CN</span>
+      </div>
+      <div id="calendarGrid" class="calendar-grid"></div>
+      <div class="calendar-note">Số lớn: ngày dương · số nhỏ: ngày âm. Bấm vào ngày để xem chi tiết.</div>
+    </section>
+
     <!-- ALL DAYS -->
     <section id="screen-all" class="screen">
       <div class="filter-card">
@@ -70,6 +91,9 @@
     </button>
     <button data-screen="main">
       <span class="nav-icon">★</span><span>4 ngày chính</span>
+    </button>
+    <button data-screen="calendar">
+      <span class="nav-icon">▦</span><span>Lịch tháng</span>
     </button>
     <button data-screen="all">
       <span class="nav-icon">☷</span><span>Tất cả ngày</span>

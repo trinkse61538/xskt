@@ -1,7 +1,7 @@
 {
-  "name": "XSKT V5.1 – Lịch & Hôm nay",
+  "name": "XSKT V5.1 – Dương & Âm lịch",
   "short_name": "XSKT V5.1",
-  "description": "Ứng dụng V5.1: Hôm nay, 4 ngày chính và toàn bộ lịch 2026–2030.",
+  "description": "PWA V5.1 với Hôm nay, 4 ngày chính, lịch tháng dương/âm và toàn bộ ngày 2026–2030.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

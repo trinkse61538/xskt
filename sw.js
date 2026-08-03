@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'xskt-v51-pwa-v2-tabbed-app';
+const CACHE_VERSION = 'xskt-v51-pwa-v3-lunar-calendar';
 const APP_SHELL = [
   '/',
   '/index.html',
