@@ -10,14 +10,14 @@
   <meta name="description" content="V5.1 XSKT 2026–2050: hôm nay, 4 ngày chính và toàn bộ lịch theo dõi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="./assets/style.v40.css">
+  <link rel="stylesheet" href="./assets/style.v41.css">
   <title>XSKT V5.1</title>
 </head>
 <body>
-<div id="app"><div class="build-version">v4.0</div>
+<div id="app"><div class="build-version">v4.1</div>
   <header class="app-header">
     <div>
-      <div class="eyebrow">XSKT · V5.1</div>
+      <div class="eyebrow">XSKT · V5.1 · QUANT</div>
       <h1 id="screenTitle">Hôm nay</h1>
     </div>
     <button id="installBtn" class="icon-btn install-mini" hidden aria-label="Cài ứng dụng">＋</button>
@@ -271,8 +271,59 @@
         </div>
       </section>
 
+
+      <section class="method-section">
+        <h3>12. Signal Separation / Độ phân tách</h3>
+        <div class="method-note">
+          <b>Đo độ rõ của 00–99, không đo xác suất đúng</b>
+          <span>App dùng độ lệch chuẩn, Z-score của #1 và khoảng cách #1→#10. Percentile cao nghĩa là số đầu bảng nổi bật hơn so với cấu trúc điểm của các ngày khác.</span>
+        </div>
+        <div class="method-note warning">
+          <b>Historical check</b>
+          <span>Quartile có separation cao nhất không có hit-rate Top3 tốt hơn; Q4 còn thấp hơn baseline khoảng 1.42 điểm %. Vì vậy app tuyệt đối không gọi đây là “High Confidence”.</span>
+        </div>
+      </section>
+
+      <section class="method-section">
+        <h3>13. Giờ xổ / Event-Time Research</h3>
+        <div class="method-note">
+          <b>Core vẫn dùng 12:00; giờ Thân chỉ để đối chiếu</b>
+          <span>App lập thêm một quẻ research với số giờ Thân = 9, gần khung XSMN ~16:15, rồi so điểm/quẻ với quẻ chuẩn.</span>
+        </div>
+        <div class="method-note warning">
+          <b>Chưa promote vào V5.1</b>
+          <span>Nhóm Event-Time thuận hơn vẫn có Top3 all-history khoảng −0.60 điểm % vs baseline và holdout 2023–2025 khoảng −1.91 điểm %. Không có cơ sở cộng thêm 5–10%.</span>
+        </div>
+      </section>
+
+      <section class="method-section">
+        <h3>14. Vượng · Tướng · Hưu · Tù · Tử</h3>
+        <div class="method-note">
+          <b>Hiển thị động lực Ngũ hành theo tháng</b>
+          <span>Research multiplier khóa trước: Vượng 1.15 · Tướng 1.08 · Hưu 0.95 · Tù 0.85 · Tử 0.75.</span>
+        </div>
+        <div class="method-note warning">
+          <b>Seasonal challenger chưa thắng V5.1</b>
+          <span>Holdout có cải thiện nhỏ ở vài metric nhưng vẫn dưới random baseline. Vì vậy trạng thái mùa khí hiện chỉ hiển thị để giải thích, chưa thay số core.</span>
+        </div>
+      </section>
+
+      <section class="method-section">
+        <h3>15. Monte Carlo</h3>
+        <div id="mcResearch"></div>
+      </section>
+
+      <section class="method-section">
+        <h3>16. Weight Robustness</h3>
+        <div class="method-note">
+          <b>5 cấu hình trọng số</b>
+          <span>55/35/10 · 50/40/10 · 60/30/10 · 45/45/10 · 65/25/10. App kiểm tra rank ngày trong tháng và số cấu hình vẫn chọn ngày đó vào 4 ngày chính.</span>
+        </div>
+        <p class="method-copy">Robustness là độ nhạy của <strong>xếp hạng ngày</strong> trước giả định trọng số, không phải độ chắc chắn của cặp số.</p>
+      </section>
+
       <section class="method-section final-method">
-        <h3>12. Cách đọc app đúng</h3>
+        <h3>17. Cách đọc app đúng</h3>
         <p class="method-copy">“Ngày chính”, “Điểm ngày 70”, “Độ đồng thuận 80”, “Điểm cặp 85” và tần suất 10/30/100 kỳ đều là các thang mô tả/xếp hạng. Chúng không tương đương phần trăm khả năng trúng xổ số.</p>
       </section>
 
@@ -324,10 +375,10 @@
   </aside>
 </div>
 
-<script src="./data/v51-2026-2050.v40.js"></script>
+<script src="./data/v51-2026-2050.v41.js"></script>
 <script src="./data/history/recent-history.v40.js"></script>
-<script src="./data/history/research-summary.v40.js"></script>
-<script src="./assets/app.v40.js"></script>
+<script src="./data/history/research-summary.v41.js"></script>
+<script src="./assets/app.v41.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   let refreshing = false;
@@ -339,7 +390,7 @@ if ('serviceWorker' in navigator) {
   });
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js?v=40', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js?v=41', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.error('Service Worker registration failed:', err);
