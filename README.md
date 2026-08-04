@@ -1,42 +1,28 @@
-# XSKT V5.1 PWA v4.2 — Station Match
+# XSKT v4.3 — 3 Independent Layers + Anomaly Watch
 
-## Điểm mới
-- V5.1 khóa Chủ 1 + Chủ 2 trước.
-- Station Match mới so các đài đang xổ sau khi số đã khóa.
-- 20% × 10 kỳ + 35% × 30 kỳ + 45% × 100 kỳ.
-- Có consistency penalty để giảm các đài có 10/30/100 kỳ mâu thuẫn.
-- Chỉ hiện **Đài đối chiếu nổi bật** khi vượt clear-rule.
-- Nếu không đủ chênh lệch: **Không có đài nổi bật**.
-- Đây là Experimental layer, không phải xác suất kỳ tới.
+1. V5.1: khóa số
+2. Station Match: đối chiếu đài sau khi khóa số
+3. Anomaly Watch: chỉ cảnh báo thống kê
 
-## Deploy an toàn
-Ưu tiên dùng PATCH zip v4.2 để không ghi đè historical data live do GitHub Actions đang cập nhật.
+Không có tổng điểm 3 lớp. ALIGNMENT / CONFLICT / NEUTRAL / STATION WATCH không thay picks, điểm hay stake.
+
+## Deploy PATCH an toàn
+PATCH không chứa xsmn_history.csv hoặc recent-history.v40.js.
 
 ```bash
 cd ~/Downloads/xskt-khaitringuyen-github-pages
 git pull --rebase origin main
 
-cd ~/Downloads/xskt-v4.2-StationMatch-PATCH
+cd ~/Downloads/xskt-v4.3-AnomalyWatch-PATCH
 rsync -av ./ ../xskt-khaitringuyen-github-pages/
 
 cd ../xskt-khaitringuyen-github-pages
 git add .
-git commit -m "Add Station Match experimental selector v4.2"
+git commit -m "Add independent Anomaly Watch layer v4.3"
 git push origin main
 ```
 
-Mở:
-`https://xskt.khaitringuyen.com/?v=42`
+Mở: https://xskt.khaitringuyen.com/?v=43
 
-Nếu push bị `fetch first` vì GitHub Actions vừa commit:
-```bash
-git fetch origin
-git rebase origin/main
-git push origin main
-```
-
-PATCH không chứa:
-- `data/history/xsmn_history.csv`
-- `data/history/recent-history.v40.js`
-
-nên không làm lùi historical data live.
+Sau deploy: GitHub → Actions → Update XSMN History → Run workflow một lần.
+Workflow mới sẽ rebuild cả Recent Form và Anomaly Watch từ historical CSV live.

@@ -10,11 +10,11 @@
   <meta name="description" content="V5.1 XSKT 2026–2050: hôm nay, 4 ngày chính và toàn bộ lịch theo dõi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="./assets/style.v42.css">
+  <link rel="stylesheet" href="./assets/style.v43.css">
   <title>XSKT V5.1</title>
 </head>
 <body>
-<div id="app"><div class="build-version">v4.2</div>
+<div id="app"><div class="build-version">v4.3</div>
   <header class="app-header">
     <div>
       <div class="eyebrow">XSKT · V5.1 · QUANT</div>
@@ -332,8 +332,15 @@
         <p class="method-copy">Robustness là độ nhạy của <strong>xếp hạng ngày</strong> trước giả định trọng số, không phải độ chắc chắn của cặp số.</p>
       </section>
 
+      <section class="method-section">
+        <h3>17. Anomaly Watch · Lớp cảnh báo độc lập</h3>
+        <div class="method-note important"><b>3 lớp không cộng điểm</b><span>V5.1 khóa số → Station Match đối chiếu đài → Anomaly Watch cảnh báo. ALIGNMENT/CONFLICT chỉ là nhãn, không sửa điểm hay số.</span></div>
+        <p class="method-copy">Anomaly Watch dùng đầy đủ <strong>18 đuôi kết quả thô</strong> mỗi đài/kỳ, giữ cả số lặp; cửa sổ 30 / 100 / 300 kỳ.</p>
+        <div class="method-note"><b>WATCH / PERSISTENT / FDR</b><span>WATCH khi |Z| ≥2,5. PERSISTENT khi cùng chiều ở ≥2 cửa sổ với |Z| ≥1,8 và ít nhất một cửa sổ ≥2,5. FDR q≤0,05 hiển thị riêng.</span></div>
+        <div class="method-note warning"><b>Không suy diễn nguyên nhân vật lý</b><span>Thiếu machine ID, ball-set ID và lịch bảo trì thì chỉ được gọi là statistical anomaly.</span></div>
+      </section>
       <section class="method-section final-method">
-        <h3>17. Cách đọc app đúng</h3>
+        <h3>18. Cách đọc app đúng</h3>
         <p class="method-copy">“Ngày chính”, “Điểm ngày 70”, “Độ đồng thuận 80”, “Điểm cặp 85” và tần suất 10/30/100 kỳ đều là các thang mô tả/xếp hạng. Chúng không tương đương phần trăm khả năng trúng xổ số.</p>
       </section>
 
@@ -387,8 +394,9 @@
 
 <script src="./data/v51-2026-2050.v41.js"></script>
 <script src="./data/history/recent-history.v40.js"></script>
-<script src="./data/history/research-summary.v42.js"></script>
-<script src="./assets/app.v42.js"></script>
+<script src="./data/history/research-summary.v43.js"></script>
+<script src="./data/history/anomaly-history.v43.js"></script>
+<script src="./assets/app.v43.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   let refreshing = false;
@@ -400,7 +408,7 @@ if ('serviceWorker' in navigator) {
   });
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js?v=42', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js?v=43', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.error('Service Worker registration failed:', err);

@@ -1,8 +1,8 @@
-const CACHE_VERSION='xskt-v51-pwa-v42-station-match';
+const CACHE_VERSION='xskt-v51-pwa-v43-anomaly-watch';
 const APP_SHELL=[
-  '/','/index.html','/assets/style.v42.css','/assets/app.v42.js',
+  '/','/index.html','/assets/style.v43.css','/assets/app.v43.js',
   '/data/v51-2026-2050.v41.js','/data/history/recent-history.v40.js',
-  '/data/history/research-summary.v42.js','/manifest.webmanifest',
+  '/data/history/research-summary.v43.js','/data/history/anomaly-history.v43.js','/manifest.webmanifest',
   '/icons/icon-192.png','/icons/icon-512.png','/icons/apple-touch-icon.png','/offline.html'
 ];
 self.addEventListener('install',e=>e.waitUntil(
