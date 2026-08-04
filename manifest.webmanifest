@@ -1,8 +1,8 @@
 {
-  "name": "XSKT V5.1 – Research Guardrail",
+  "name": "XSKT V5.1 – 2050 & Đối chiếu",
   "short_name": "XSKT V5.1",
-  "description": "V5.1 giữ lịch đài nhưng tạm tắt recommendation Station Layer sau walk-forward validation.",
-  "start_url": "/?v=35",
+  "description": "V5.1 2026–2050, lịch âm, Recent Form 10/30/100 kỳ và historical data tự cập nhật.",
+  "start_url": "/?v=40",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0b1020",

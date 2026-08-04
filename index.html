@@ -7,14 +7,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="XSKT V5.1">
-  <meta name="description" content="V5.1 XSKT 2026–2030: hôm nay, 4 ngày chính và toàn bộ lịch theo dõi.">
+  <meta name="description" content="V5.1 XSKT 2026–2050: hôm nay, 4 ngày chính và toàn bộ lịch theo dõi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="./assets/style.v35.css">
+  <link rel="stylesheet" href="./assets/style.v40.css">
   <title>XSKT V5.1</title>
 </head>
 <body>
-<div id="app"><div class="build-version">v3.5</div>
+<div id="app"><div class="build-version">v4.0</div>
   <header class="app-header">
     <div>
       <div class="eyebrow">XSKT · V5.1</div>
@@ -64,6 +64,34 @@
       <div class="calendar-note">Số lớn: ngày dương · số nhỏ: ngày âm. Bấm vào ngày để xem chi tiết.</div>
     </section>
 
+
+    <!-- RECENT / HISTORICAL COMPARISON -->
+    <section id="screen-compare" class="screen">
+      <div class="method-hero compare-hero">
+        <div class="method-kicker">HISTORICAL · RECENT FORM</div>
+        <h2>Đối chiếu theo đài</h2>
+        <p>So các số V5.1 với tần suất thực nghiệm của chính đài đang xổ hôm nay. Không dùng dữ liệu này để sửa điểm V5.1.</p>
+      </div>
+      <div id="compareStations" class="station-tabs"></div>
+      <div id="compareMeta" class="summary-line"></div>
+      <div class="section-title">Các số V5.1 hôm nay</div>
+      <div id="comparePicks" class="pick-history-list"></div>
+      <div class="recent-toolbar">
+        <span>Cửa sổ đối chiếu</span>
+        <div id="compareWindow" class="segmented compact-seg">
+          <button data-window="10">10 kỳ</button>
+          <button data-window="30" class="active">30 kỳ</button>
+          <button data-window="100">100 kỳ</button>
+        </div>
+      </div>
+      <div id="baselineText" class="baseline-line"></div>
+      <div class="section-title">Top số theo tần suất gần đây</div>
+      <div id="recentTop" class="recent-top-list"></div>
+      <div class="section-title">Bảng 00–99</div>
+      <div id="numberGrid" class="history-number-grid"></div>
+      <div id="compareWarning" class="method-note warning compare-warning"></div>
+    </section>
+
     <!-- ALL DAYS -->
     <section id="screen-all" class="screen">
       <div class="filter-card">
@@ -99,7 +127,7 @@
           <div class="profile-item"><span>Ngày sinh</span><b>27/02/1995</b><em>Dùng để xác lập Tứ Trụ</em></div>
           <div class="profile-item"><span>Giờ sinh</span><b>20:40</b><em>Dùng để xác lập trụ giờ</em></div>
           <div class="profile-item"><span>Nơi sinh</span><b>Long Xuyên, An Giang</b><em>Dùng để xác định thời gian địa phương / UTC+7 khi lập hồ sơ</em></div>
-          <div class="profile-item wide"><span>Tứ Trụ nền đang khóa</span><b>Ất Hợi · Mậu Dần · Kỷ Sửu · Giáp Tuất</b><em>Mọi ngày 2026–2030 được so với cùng một hồ sơ này</em></div>
+          <div class="profile-item wide"><span>Tứ Trụ nền đang khóa</span><b>Ất Hợi · Mậu Dần · Kỷ Sửu · Giáp Tuất</b><em>Mọi ngày 2026–2050 được so với cùng một hồ sơ này</em></div>
           <div class="profile-item"><span>Nhật chủ</span><b>Kỷ Thổ</b><em>Nền chính của lớp Ngũ hành</em></div>
           <div class="profile-item"><span>Giới tính</span><b>Nam</b><em>Hiện không đi vào công thức điểm V5.1</em></div>
         </div>
@@ -154,7 +182,7 @@
         </div>
         <div class="method-note warning">
           <b>Giờ sinh 20:40 có được dùng để lập quẻ ngày không?</b>
-          <span>Không. Giờ sinh chỉ nằm trong Tứ Trụ cá nhân (trụ giờ Giáp Tuất). Quẻ của từng ngày dùng giờ Ngọ cố định để 1.826 ngày có thể so sánh nhất quán.</span>
+          <span>Không. Giờ sinh chỉ nằm trong Tứ Trụ cá nhân (trụ giờ Giáp Tuất). Quẻ của từng ngày dùng giờ Ngọ cố định để toàn bộ lịch 2026–2050 có thể so sánh nhất quán.</span>
         </div>
         <p class="method-copy">Đây là một quy ước tính toán được khóa cho V5, không được trình bày như “công thức Kinh Dịch duy nhất” hay một trường phái cổ điển duy nhất.</p>
       </section>
@@ -207,35 +235,47 @@
       </section>
 
 
+
       <section class="method-section">
-        <h3>8. Lớp chọn đài XSMN</h3>
-        <div class="method-note">
-          <b>App xác định đài theo thứ trong tuần</b>
-          <span>T2: TP.HCM/Đồng Tháp/Cà Mau · T3: Bến Tre/Vũng Tàu/Bạc Liêu · T4: Đồng Nai/Cần Thơ/Sóc Trăng · T5: Tây Ninh/An Giang/Bình Thuận · T6: Vĩnh Long/Bình Dương/Trà Vinh · T7: TP.HCM/Long An/Bình Phước/Hậu Giang · CN: Tiền Giang/Kiên Giang/Đà Lạt.</span>
-        </div>
+        <h3>8. Kiểm định lịch sử 2005–2025</h3>
         <div class="method-note warning">
-          <b>Lịch 2027–2030 là giả định</b>
-          <span>App đang lặp lại lịch tuần hiện hành 2026. Nếu cơ quan xổ số thay lịch trong tương lai, cần cập nhật cấu hình lịch đài.</span>
+          <b>Không xác nhận predictive edge</b>
+          <span>Trên 22.815 kỳ-đài, Chủ 1 gần baseline; Top3 và Top5 không tốt hơn random baseline. Holdout 2023–2025 cũng không xác nhận lợi thế dương.</span>
         </div>
-        <details class="method-details" open>
-          <summary>Đài được xếp hạng dựa trên gì?</summary>
-          <p class="method-copy">Mặc định dùng bộ 3 core V5.1: <strong>Chủ 1 + Chủ 2 + Đảo/phụ</strong>. Với từng đài, app tính hit-rate lịch sử của bộ này trên các kỳ thực tế 2020–2025 rồi trừ random baseline của từng kỳ.</p>
-          <p class="method-copy">2020–2024 được dùng làm cửa sổ lịch sử; 2025 được giữ riêng để xem tín hiệu có tái lập hay không. Nếu 2025 đảo dấu, Index bị giảm độ tin cậy.</p>
-        </details>
-        <details class="method-details">
-          <summary>Station Index có phải xác suất?</summary>
-          <p class="method-copy">Không. Index chỉ được scale quanh 50 và giới hạn trong vùng 35–65 để tiện xếp hạng. <strong>Index 60 không có nghĩa là 60% khả năng trúng.</strong></p>
-        </details>
+        <p class="method-copy">Vì vậy app giữ nguyên V5.1 như một hệ xếp hạng cá nhân hóa, không tinh chỉnh ngược công thức để làm đẹp lịch sử.</p>
+      </section>
+
+      <section class="method-section">
+        <h3>9. Đối chiếu 10 / 30 / 100 kỳ</h3>
+        <div class="method-note">
+          <b>Tỷ lệ kỳ có xuất hiện ≠ xác suất kỳ tới</b>
+          <span>Tab Đối chiếu tính số kỳ trong N kỳ gần nhất mà một số xuất hiện ít nhất một lần trong 18 kết quả của đài. 30 kỳ là cửa sổ mặc định; 10 kỳ rất nhiễu, 100 kỳ ổn định hơn nhưng phản ứng chậm.</span>
+        </div>
+        <p class="method-copy">Backtest recent-form không ổn định qua development/validation/holdout, nên tần suất gần đây chỉ là dữ liệu kiểm tra chéo và không cộng vào điểm số.</p>
+      </section>
+
+      <section class="method-section">
+        <h3>10. Đài XSMN</h3>
+        <div class="method-note warning">
+          <b>Không còn khuyến nghị đài</b>
+          <span>Walk-forward 2011–2025: chọn đài theo lịch sử đạt khoảng 41.23% Top3 so với baseline 42.15%. Do đó app chỉ liệt kê đúng các đài xổ trong ngày.</span>
+        </div>
+        <p class="method-copy">Lịch 2027–2050 hiện giả định chu kỳ XSMN hiện hành không đổi. Nếu lịch chính thức thay đổi, cần sửa cấu hình schedule.</p>
+      </section>
+
+      <section class="method-section">
+        <h3>11. Historical data tự cập nhật</h3>
         <div class="method-note important">
-          <b>Trạng thái hiện tại: recommendation đang tắt</b>
-          <span>Walk-forward 2022–2025 cho kết quả thấp hơn baseline, vì vậy app v3.5 không còn khuyên chọn đài. Historical Index vẫn hiển thị để nghiên cứu và sẽ chỉ được bật lại nếu dữ liệu 2005–2025 xác nhận.</span>
+          <b>GitHub Actions chạy mỗi ngày</b>
+          <span>Sau giờ xổ, workflow lấy các kỳ còn thiếu → kiểm tra đủ 18 kết quả/đài → append CSV → dựng lại Recent Form → commit dữ liệu mới. Fetch/parser lỗi không bao giờ được ghi thành một kỳ “0 hit”.</span>
         </div>
       </section>
 
       <section class="method-section final-method">
-        <h3>9. Cách đọc app đúng</h3>
-        <p class="method-copy">“Ngày chính”, “V5 70”, “Agreement 80” hay “Điểm cặp 85” đều là <strong>thang xếp hạng nội bộ của mô hình</strong>. Chúng không có nghĩa là “70% hoặc 85% khả năng trúng”.</p>
+        <h3>12. Cách đọc app đúng</h3>
+        <p class="method-copy">“Ngày chính”, “Điểm ngày 70”, “Độ đồng thuận 80”, “Điểm cặp 85” và tần suất 10/30/100 kỳ đều là các thang mô tả/xếp hạng. Chúng không tương đương phần trăm khả năng trúng xổ số.</p>
       </section>
+
     </section>
 
   </main>
@@ -249,6 +289,9 @@
     </button>
     <button data-screen="calendar">
       <span class="nav-icon">▦</span><span>Lịch tháng</span>
+    </button>
+    <button data-screen="compare">
+      <span class="nav-icon">≋</span><span>Đối chiếu</span>
     </button>
     <button data-screen="all">
       <span class="nav-icon">☷</span><span>Tất cả ngày</span>
@@ -281,8 +324,10 @@
   </aside>
 </div>
 
-<script src="./data/v51-2026-2030.v35.js"></script>
-<script src="./assets/app.v35.js"></script>
+<script src="./data/v51-2026-2050.v40.js"></script>
+<script src="./data/history/recent-history.v40.js"></script>
+<script src="./data/history/research-summary.v40.js"></script>
+<script src="./assets/app.v40.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   let refreshing = false;
@@ -294,7 +339,7 @@ if ('serviceWorker' in navigator) {
   });
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js?v=35', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js?v=40', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.error('Service Worker registration failed:', err);

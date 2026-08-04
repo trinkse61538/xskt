@@ -1,53 +1,25 @@
-const CACHE_VERSION = 'xskt-v51-pwa-v35-research-guardrail';
-const APP_SHELL = [
-  '/',
-  '/index.html',
-  '/assets/style.v35.css',
-  '/assets/app.v35.js',
-  '/data/v51-2026-2030.v35.js',
-  '/manifest.webmanifest',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/apple-touch-icon.png',
-  '/offline.html'
+const CACHE_VERSION='xskt-v51-pwa-v40-2050-recent';
+const APP_SHELL=[
+  '/','/index.html','/assets/style.v40.css','/assets/app.v40.js',
+  '/data/v51-2026-2050.v40.js','/data/history/recent-history.v40.js',
+  '/data/history/research-summary.v40.js','/manifest.webmanifest',
+  '/icons/icon-192.png','/icons/icon-512.png','/icons/apple-touch-icon.png','/offline.html'
 ];
-
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_VERSION)
-      .then(cache => cache.addAll(APP_SHELL.map(u => new Request(u, {cache: 'reload'}))))
-      .then(() => self.skipWaiting())
-  );
-});
-
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE_VERSION).map(k => caches.delete(k))))
-      .then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-
-  const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
-
-  event.respondWith(
-    fetch(new Request(event.request, {cache: 'no-store'}))
-      .then(response => {
-        if (response && response.ok) {
-          const copy = response.clone();
-          caches.open(CACHE_VERSION).then(cache => cache.put(event.request, copy));
-        }
-        return response;
-      })
-      .catch(async () => {
-        const cached = await caches.match(event.request);
-        if (cached) return cached;
-        if (event.request.mode === 'navigate') return caches.match('/offline.html');
-        return Response.error();
-      })
-  );
+self.addEventListener('install',e=>e.waitUntil(
+  caches.open(CACHE_VERSION).then(c=>c.addAll(APP_SHELL.map(u=>new Request(u,{cache:'reload'})))).then(()=>self.skipWaiting())
+));
+self.addEventListener('activate',e=>e.waitUntil(
+  caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim())
+));
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET')return;
+  const u=new URL(e.request.url);if(u.origin!==self.location.origin)return;
+  e.respondWith(fetch(new Request(e.request,{cache:'no-store'})).then(r=>{
+    if(r&&r.ok){const cp=r.clone();caches.open(CACHE_VERSION).then(c=>c.put(e.request,cp))}
+    return r;
+  }).catch(async()=>{
+    const c=await caches.match(e.request);if(c)return c;
+    if(e.request.mode==='navigate')return caches.match('/offline.html');
+    return Response.error();
+  }));
 });
