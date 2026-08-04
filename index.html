@@ -10,11 +10,11 @@
   <meta name="description" content="V5.1 XSKT 2026–2050: hôm nay, 4 ngày chính và toàn bộ lịch theo dõi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="./assets/style.v41.css">
+  <link rel="stylesheet" href="./assets/style.v42.css">
   <title>XSKT V5.1</title>
 </head>
 <body>
-<div id="app"><div class="build-version">v4.1</div>
+<div id="app"><div class="build-version">v4.2</div>
   <header class="app-header">
     <div>
       <div class="eyebrow">XSKT · V5.1 · QUANT</div>
@@ -72,6 +72,8 @@
         <h2>Đối chiếu theo đài</h2>
         <p>So các số V5.1 với tần suất thực nghiệm của chính đài đang xổ hôm nay. Không dùng dữ liệu này để sửa điểm V5.1.</p>
       </div>
+      <div id="stationMatchOverview"></div>
+      <div class="section-title">Xem chi tiết từng đài</div>
       <div id="compareStations" class="station-tabs"></div>
       <div id="compareMeta" class="summary-line"></div>
       <div class="section-title">Các số V5.1 hôm nay</div>
@@ -255,12 +257,20 @@
       </section>
 
       <section class="method-section">
-        <h3>10. Đài XSMN</h3>
-        <div class="method-note warning">
-          <b>Không còn khuyến nghị đài</b>
-          <span>Walk-forward 2011–2025: chọn đài theo lịch sử đạt khoảng 41.23% Top3 so với baseline 42.15%. Do đó app chỉ liệt kê đúng các đài xổ trong ngày.</span>
+        <h3>10. Station Match / Đài đối chiếu</h3>
+        <div class="method-note important">
+          <b>Khóa số trước, chọn đài sau</b>
+          <span>V5.1 xác định Chủ 1 + Chủ 2 trước. Station Match tuyệt đối không được dùng để đổi số cho vừa lịch sử của một đài.</span>
         </div>
-        <p class="method-copy">Lịch 2027–2050 hiện giả định chu kỳ XSMN hiện hành không đổi. Nếu lịch chính thức thay đổi, cần sửa cấu hình schedule.</p>
+        <p class="method-copy"><strong>Match thô</strong> = 20%×10 kỳ + 35%×30 kỳ + 45%×100 kỳ, tính riêng cho hai số chủ rồi lấy trung bình. <strong>Match điều chỉnh</strong> trừ 25% độ phân tán giữa ba cửa sổ để giảm điểm những đài có tín hiệu ngắn/dài hạn mâu thuẫn.</p>
+        <div class="method-note">
+          <b>Khi nào hiện “Đài đối chiếu nổi bật”?</b>
+          <span>#1 phải cao hơn baseline ≥2 điểm %, dẫn #2 ≥2 điểm %, và weighted rate của từng số chủ không thấp hơn baseline quá 5 điểm %. Không đạt đủ điều kiện → “Không có đài nổi bật”.</span>
+        </div>
+        <div class="method-note warning">
+          <b>Experimental — chưa phải station edge</b>
+          <span>Past-only 2006–2025: trên 2.457 ngày đạt clear-rule, đài được chọn cao hơn trung bình các đài cùng ngày +1,01 điểm % (p≈0,185). Holdout 2023–2025: +3,16 điểm % (p≈0,083). Hướng tín hiệu tích cực nhưng chưa đủ để kết luận lợi thế xác suất.</span>
+        </div>
       </section>
 
       <section class="method-section">
@@ -377,8 +387,8 @@
 
 <script src="./data/v51-2026-2050.v41.js"></script>
 <script src="./data/history/recent-history.v40.js"></script>
-<script src="./data/history/research-summary.v41.js"></script>
-<script src="./assets/app.v41.js"></script>
+<script src="./data/history/research-summary.v42.js"></script>
+<script src="./assets/app.v42.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   let refreshing = false;
@@ -390,7 +400,7 @@ if ('serviceWorker' in navigator) {
   });
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js?v=41', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js?v=42', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.error('Service Worker registration failed:', err);

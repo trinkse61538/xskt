@@ -1,8 +1,8 @@
-const CACHE_VERSION='xskt-v51-pwa-v41-quant-research';
+const CACHE_VERSION='xskt-v51-pwa-v42-station-match';
 const APP_SHELL=[
-  '/','/index.html','/assets/style.v41.css','/assets/app.v41.js',
+  '/','/index.html','/assets/style.v42.css','/assets/app.v42.js',
   '/data/v51-2026-2050.v41.js','/data/history/recent-history.v40.js',
-  '/data/history/research-summary.v41.js','/manifest.webmanifest',
+  '/data/history/research-summary.v42.js','/manifest.webmanifest',
   '/icons/icon-192.png','/icons/icon-512.png','/icons/apple-touch-icon.png','/offline.html'
 ];
 self.addEventListener('install',e=>e.waitUntil(
