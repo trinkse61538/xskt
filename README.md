@@ -1,16 +1,19 @@
-# XSKT V5.1 PWA v3.4 — Station Layer
+# XSKT V5.1 PWA v3.5 — Research Guardrail
 
-Bản v3.4 tự xác định các đài XSMN theo ngày và xếp hạng đài bằng historical compatibility của bộ 3 core V5.1 trên dữ liệu 2020–2025.
+Thay đổi:
+- vẫn hiển thị đúng các đài XSMN theo ngày;
+- vẫn hiển thị Historical Index 2020–2025;
+- **tắt khuyến nghị chọn đài** vì walk-forward 2022–2025 chưa xác nhận lợi thế;
+- banner giải thích Top3 selected ~39.7% vs baseline ~42.2%;
+- chờ long-history validation 2005–2025.
 
 Deploy:
 ```bash
 rsync -av --exclude='.git' ./ ../xskt-khaitringuyen-github-pages/
 cd ../xskt-khaitringuyen-github-pages
 git add .
-git commit -m "Add XSMN station layer to V5.1 v3.4"
+git commit -m "Disable station recommendation pending long-history validation v3.5"
 git push origin main
 ```
 
-Mở `https://xskt.khaitringuyen.com/?v=34`.
-
-Lưu ý: lịch 2027–2030 đang giả định lịch tuần XSMN hiện hành 2026 không đổi.
+Mở `https://xskt.khaitringuyen.com/?v=35`.

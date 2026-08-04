@@ -10,11 +10,11 @@
   <meta name="description" content="V5.1 XSKT 2026–2030: hôm nay, 4 ngày chính và toàn bộ lịch theo dõi.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="./assets/style.v34.css">
+  <link rel="stylesheet" href="./assets/style.v35.css">
   <title>XSKT V5.1</title>
 </head>
 <body>
-<div id="app"><div class="build-version">v3.4</div>
+<div id="app"><div class="build-version">v3.5</div>
   <header class="app-header">
     <div>
       <div class="eyebrow">XSKT · V5.1</div>
@@ -227,8 +227,8 @@
           <p class="method-copy">Không. Index chỉ được scale quanh 50 và giới hạn trong vùng 35–65 để tiện xếp hạng. <strong>Index 60 không có nghĩa là 60% khả năng trúng.</strong></p>
         </details>
         <div class="method-note important">
-          <b>Khi nào app nói “Ưu tiên”?</b>
-          <span>Chỉ khi đài đứng đầu nhóm và excess hit-rate Top 3 cùng dương ở 2020–2024 lẫn holdout 2025. Nếu không ổn định, app sẽ ghi “Xếp #1 lịch sử” hoặc “Không có đài ưu tiên rõ ràng”.</span>
+          <b>Trạng thái hiện tại: recommendation đang tắt</b>
+          <span>Walk-forward 2022–2025 cho kết quả thấp hơn baseline, vì vậy app v3.5 không còn khuyên chọn đài. Historical Index vẫn hiển thị để nghiên cứu và sẽ chỉ được bật lại nếu dữ liệu 2005–2025 xác nhận.</span>
         </div>
       </section>
 
@@ -281,8 +281,8 @@
   </aside>
 </div>
 
-<script src="./data/v51-2026-2030.v34.js"></script>
-<script src="./assets/app.v34.js"></script>
+<script src="./data/v51-2026-2030.v35.js"></script>
+<script src="./assets/app.v35.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   let refreshing = false;
@@ -294,7 +294,7 @@ if ('serviceWorker' in navigator) {
   });
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js?v=34', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js?v=35', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.error('Service Worker registration failed:', err);

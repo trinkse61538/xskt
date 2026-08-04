@@ -1,10 +1,10 @@
-const CACHE_VERSION = 'xskt-v51-pwa-v34-stations';
+const CACHE_VERSION = 'xskt-v51-pwa-v35-research-guardrail';
 const APP_SHELL = [
   '/',
   '/index.html',
-  '/assets/style.v34.css',
-  '/assets/app.v34.js',
-  '/data/v51-2026-2030.v34.js',
+  '/assets/style.v35.css',
+  '/assets/app.v35.js',
+  '/data/v51-2026-2030.v35.js',
   '/manifest.webmanifest',
   '/icons/icon-192.png',
   '/icons/icon-512.png',

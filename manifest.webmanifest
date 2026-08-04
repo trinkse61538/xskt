@@ -1,8 +1,8 @@
 {
-  "name": "XSKT V5.1 – Lịch & Đài",
+  "name": "XSKT V5.1 – Research Guardrail",
   "short_name": "XSKT V5.1",
-  "description": "PWA V5.1 có lịch đài XSMN theo ngày và Station Layer từ backtest 2020–2025.",
-  "start_url": "/?v=34",
+  "description": "V5.1 giữ lịch đài nhưng tạm tắt recommendation Station Layer sau walk-forward validation.",
+  "start_url": "/?v=35",
   "scope": "/",
   "display": "standalone",
   "background_color": "#0b1020",
