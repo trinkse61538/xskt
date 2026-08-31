@@ -7,7 +7,8 @@
   const MONTHS = ['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
   const PAYOUT_MULTIPLIER = 80 / 15;
   const NUMBERS_PER_DAY = 2;
-  const DAY_OPTIONS = [4,7,15,20];
+  const STEP_UNIT = 15000;
+  const DAY_OPTIONS = [4,7,10,15,20,25];
   const XSMN_SCHEDULE = {
     0:['TP.HCM','Đồng Tháp','Cà Mau'],
     1:['Bến Tre','Vũng Tàu','Bạc Liêu'],
@@ -24,6 +25,7 @@
   let guideMonth = Math.min(12, Math.max(1, latestParts[1] || 1));
   let guideDays = 4;
   let baseStake = 75000;
+  let guideStartDate = '';
 
   function safe(v) {
     return String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -38,6 +40,30 @@
   function fmtDate(iso) {
     const [y,m,d] = iso.split('-');
     return `${d}/${m}`;
+  }
+  function fmtFullDate(iso) {
+    if (!iso) return '—';
+    const [y,m,d] = iso.split('-');
+    return `${d}/${m}/${y}`;
+  }
+  function stepNumber(value) {
+    return Number(value || 0) / STEP_UNIT;
+  }
+  function fmtStep(value) {
+    const n = Number(value || 0);
+    return Number.isInteger(n) ? String(n) : n.toLocaleString('vi-VN',{maximumFractionDigits:2});
+  }
+  function isWholeStep(value) {
+    const n = stepNumber(value);
+    return Number.isFinite(n) && Math.abs(n - Math.round(n)) < 1e-9;
+  }
+  function stakeStepMessage(value) {
+    const steps = stepNumber(value);
+    if (!Number.isFinite(steps) || steps <= 0) return {warn:true,html:'Nhập số tiền lớn hơn 0.'};
+    if (isWholeStep(value)) return {warn:false,html:`${fmtStep(steps)} bước × 15k = <b>${money(value)}</b> / số.`};
+    const low = Math.max(1,Math.floor(steps));
+    const high = Math.max(1,Math.ceil(steps));
+    return {warn:true,html:`<b>⚠ Bước đang lẻ: ${fmtStep(steps)}</b>. Tiền mỗi số nên là bội của 15k. Gần nhất: <strong>bước ${low} = ${money(low*STEP_UNIT)}</strong> hoặc <strong>bước ${high} = ${money(high*STEP_UNIT)}</strong>.`};
   }
   function priority(r) {
     return .65 * Number(r.v5 || 0) + .35 * Number(r.agreement || 0);
@@ -89,6 +115,88 @@
     return h.anyState === 'loss' ? 'Không trúng' : 'Chưa đủ kết quả';
   }
 
+  function consecutiveDays(startDate,count) {
+    if (!startDate) return [];
+    return DATA.filter(r => r.date >= startDate)
+      .sort((a,b) => a.date.localeCompare(b.date))
+      .slice(0,count);
+  }
+
+  function selectedDays() {
+    return guideStartDate ? consecutiveDays(guideStartDate,guideDays) : recommendedDays(guideYear,guideMonth,guideDays);
+  }
+
+  function setGuideStartDate(iso) {
+    guideStartDate = iso || '';
+    if (guideStartDate) {
+      const [y,m] = guideStartDate.split('-').map(Number);
+      guideYear = Math.min(2050,Math.max(2026,y || guideYear));
+      guideMonth = Math.min(12,Math.max(1,m || guideMonth));
+    }
+  }
+
+  function shiftCustomStartMonth(delta) {
+    if (!guideStartDate) return false;
+    let [y,m,d] = guideStartDate.split('-').map(Number);
+    m += delta;
+    while (m < 1) { m += 12; y--; }
+    while (m > 12) { m -= 12; y++; }
+    y = Math.min(2050,Math.max(2026,y));
+    const last = new Date(y,m,0).getDate();
+    d = Math.min(d,last);
+    setGuideStartDate(`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`);
+    return true;
+  }
+
+  function ensureGuideExtras() {
+    const dayBox = $('guideDayCount');
+    if (dayBox && !dayBox.querySelector('[data-days="10"]')) {
+      dayBox.innerHTML = DAY_OPTIONS.map(n => `<button data-days="${n}" class="${n===guideDays?'active':''}">${n} ngày</button>`).join('');
+    }
+
+    const stakeWrap = document.querySelector('#screen-guide .guide-stake-wrap');
+    if (stakeWrap && !$('guideStep')) {
+      stakeWrap.insertAdjacentHTML('beforeend',`
+        <div class="guide-step-sync">
+          <div class="guide-control-label"><span>Bước số ngày 1</span><b>1 bước = 15.000đ / số</b></div>
+          <div class="guide-step-input">
+            <input id="guideStep" type="number" min="0.1" step="1" value="5" inputmode="decimal" aria-label="Bước số ngày 1">
+            <span>bước</span>
+          </div>
+          <div id="guideStakeWarning" class="guide-step-message"></div>
+        </div>`);
+      $('guideStep')?.addEventListener('input',e => {
+        const steps = Number(e.target.value);
+        if (!Number.isFinite(steps) || steps <= 0) return;
+        baseStake = Math.round(steps * STEP_UNIT);
+        if ($('guideStake')) $('guideStake').value = String(baseStake);
+        renderGuide();
+      });
+    }
+
+    const controls = document.querySelector('#screen-guide .guide-controls');
+    if (controls && !$('guideStartDate')) {
+      controls.insertAdjacentHTML('beforeend',`
+        <div class="guide-start-wrap">
+          <div class="guide-control-label"><span>Ngày bắt đầu chu kỳ</span><b>Tùy chọn</b></div>
+          <div class="guide-start-input">
+            <input id="guideStartDate" type="date" min="2026-01-01" max="2050-12-31" aria-label="Ngày bắt đầu chu kỳ">
+            <button id="guideClearStart" type="button">Dùng ngày ưu tiên</button>
+          </div>
+          <div class="guide-hint">Bỏ trống: chọn N ngày V5.1 ưu tiên trong tháng. Nhập ngày: ngày đó là #1 và app đếm liên tiếp đủ N ngày, kể cả qua tháng mới.</div>
+        </div>`);
+      $('guideStartDate')?.addEventListener('change',e => {
+        setGuideStartDate(e.target.value);
+        renderGuide();
+      });
+      $('guideClearStart')?.addEventListener('click',() => {
+        setGuideStartDate('');
+        if ($('guideStartDate')) $('guideStartDate').value = '';
+        renderGuide();
+      });
+    }
+  }
+
   function recommendedDays(year,month,count) {
     const rows = DATA.filter(r => r.y === year && r.m === month);
     const mains = rows.filter(r => r.status === 'CHÍNH').sort((a,b) => a.date.localeCompare(b.date));
@@ -127,6 +235,10 @@
   }
 
   function shiftMonth(delta) {
+    if (shiftCustomStartMonth(delta)) {
+      renderGuide();
+      return;
+    }
     guideMonth += delta;
     if (guideMonth < 1) { guideMonth = 12; guideYear--; }
     if (guideMonth > 12) { guideMonth = 1; guideYear++; }
@@ -136,11 +248,21 @@
   }
 
   function renderGuide() {
-    $('guidePeriod').textContent = `${MONTHS[guideMonth-1]} ${guideYear}`;
+    ensureGuideExtras();
+    $('guidePeriod').textContent = guideStartDate ? `Từ ${fmtFullDate(guideStartDate)} · ${guideDays} ngày` : `${MONTHS[guideMonth-1]} ${guideYear}`;
     document.querySelectorAll('#guideDayCount button').forEach(btn => btn.classList.toggle('active',+btn.dataset.days === guideDays));
     if ($('guideStake') && document.activeElement !== $('guideStake')) $('guideStake').value = String(baseStake);
+    if ($('guideStep') && document.activeElement !== $('guideStep')) $('guideStep').value = String(Number(stepNumber(baseStake).toFixed(2)));
+    if ($('guideStartDate') && document.activeElement !== $('guideStartDate')) $('guideStartDate').value = guideStartDate;
+    const stepMsg = stakeStepMessage(baseStake);
+    if ($('guideStakeWarning')) {
+      $('guideStakeWarning').classList.toggle('warning',stepMsg.warn);
+      $('guideStakeWarning').innerHTML = stepMsg.html;
+    }
+    const dateTitle = $('guideDates')?.previousElementSibling;
+    if (dateTitle?.classList.contains('section-title')) dateTitle.textContent = guideStartDate ? `Chu kỳ từ ${fmtFullDate(guideStartDate)}` : 'Ngày V5.1 được chọn';
 
-    const selected = recommendedDays(guideYear,guideMonth,guideDays);
+    const selected = selectedDays();
     const plan = progression(guideDays,baseStake);
     const history = selected.map(evaluateHistory);
     const maxCapital = plan.at(-1)?.cumulative || 0;
@@ -173,7 +295,8 @@
     $('guideSummary').innerHTML = `
       <div class="guide-summary-grid">
         <div><span>Số ngày</span><b>${guideDays}</b></div>
-        <div><span>Ngày 1 / mỗi số</span><b>${money(baseStake)}</b></div>
+        <div><span>Ngày 1 / mỗi số</span><b>${money(baseStake)}</b><small>Bước ${fmtStep(stepNumber(baseStake))}</small></div>
+        <div><span>Ngày bắt đầu</span><b>${guideStartDate ? fmtFullDate(guideStartDate) : 'Theo V5.1'}</b></div>
         <div><span>Vốn tối đa nếu miss hết</span><b>${money(maxCapital)}</b></div>
         <div><span>Mức cao nhất / mỗi số</span><b>${money(maxPerNumber)}</b></div>
       </div>
@@ -215,7 +338,7 @@
           <small>Any Station: ${safe(anyHistoryText(h))}</small>
         </div>` : ''}
         <div class="guide-plan-money">
-          <div><span>Mỗi số</span><b>${money(p.perNumber)}</b><small>${p.multiple}× base</small></div>
+          <div><span>Mỗi số</span><b>${money(p.perNumber)}</b><small>Bước ${fmtStep(stepNumber(p.perNumber))} · ${p.multiple}× base</small></div>
           <div><span>Tổng ngày</span><b>${money(p.dayTotal)}</b></div>
           <div><span>Tổng vốn đã cược</span><b>${money(p.cumulative)}</b></div>
           <div><span>1 nháy trả</span><b>${money(p.oneHitPayout)}</b></div>
@@ -224,7 +347,7 @@
       </article>`;
     }).join('');
 
-    $('guideFormula').innerHTML = `Tỷ lệ đang dùng: <b>15k → 80k / nháy</b>. Mỗi ngày đánh <b>2 số</b>. Mức ngày sau được làm tròn lên theo <b>bội của tiền ngày 1</b> và chọn bội nhỏ nhất để 1 nháy vẫn cover toàn bộ tiền đã cược trước đó.<br><br><b>Review lịch sử:</b> WIN/MISS được chấm theo Đài 1; Any Station hiển thị thêm để đối chiếu. Dữ liệu hiện xác định số có xuất hiện hay không, không dùng để khẳng định số nháy lặp; P/L review vì vậy lấy mức tối thiểu <b>1 nháy</b> khi WIN.`;
+    $('guideFormula').innerHTML = `Tỷ lệ đang dùng: <b>15k → 80k / nháy</b>. Quy ước <b>1 bước = 15k / số</b>; ví dụ 5 bước = 75k. Mỗi ngày đánh <b>2 số</b>. Mức ngày sau vẫn theo <b>bội của tiền ngày 1</b> như kế hoạch hiện tại và chọn bội nhỏ nhất để 1 nháy cover toàn bộ tiền đã cược trước đó.<br><br><b>Ngày bắt đầu:</b> bỏ trống để dùng các ngày V5.1 ưu tiên trong tháng; nhập ngày để reset một chu kỳ mới từ đúng ngày đó và đếm liên tiếp N ngày.<br><br><b>Review lịch sử:</b> WIN/MISS được chấm theo Đài 1; Any Station hiển thị thêm để đối chiếu. Dữ liệu hiện xác định số có xuất hiện hay không, không dùng để khẳng định số nháy lặp; P/L review vì vậy lấy mức tối thiểu <b>1 nháy</b> khi WIN.`;
   }
 
   $('guidePrev')?.addEventListener('click',() => shiftMonth(-1));
