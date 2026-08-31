@@ -1,0 +1,61 @@
+/* V4.4 · Performance statistics tab */
+.bottom-nav{grid-template-columns:repeat(7,minmax(0,1fr))}
+.bottom-nav button span:last-child{white-space:nowrap}
+
+.stats-hero{margin-bottom:12px}
+.stats-freshness{
+  margin:0 2px 12px;padding:10px 12px;border:1px solid #29405f;border-radius:13px;
+  background:#101a2c;color:#9fb1ca;font-size:11px;line-height:1.5
+}
+.stats-freshness b{color:#dce8fb}
+.stats-kpi-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.stats-kpi{
+  min-width:0;background:#111a2b;border:1px solid #263853;border-radius:16px;padding:13px;
+  display:flex;flex-direction:column;gap:3px
+}
+.stats-kpi.primary{border-color:#35639a;background:linear-gradient(145deg,#142743,#111a2b 70%)}
+.stats-kpi.main-kpi{border-color:#39765c;background:linear-gradient(145deg,#143128,#111a2b 72%)}
+.stats-kpi span{font-size:10px;color:#91a3bf;font-weight:750;text-transform:uppercase;letter-spacing:.04em}
+.stats-kpi b{font-size:27px;line-height:1.05;margin-top:4px}
+.stats-kpi strong{font-size:12px;color:#d5e0f0}
+.stats-kpi small{font-size:10px;line-height:1.35;color:#7f91ad;margin-top:3px}
+.stats-baseline{
+  border:1px solid #3d4b63;background:#141d2d;border-radius:15px;padding:12px 13px;margin:9px 0 12px;
+  display:flex;flex-direction:column;gap:4px
+}
+.stats-baseline b{font-size:12px}.stats-baseline span{font-size:12px;color:#bdcbe0}.stats-baseline small{font-size:10px;color:#7f91ad;line-height:1.4}
+.stats-filter{padding-top:0;margin:4px 0 10px}
+.stats-summary{font-size:11px;color:#8fa2be;padding:0 3px 9px}
+.stats-days{display:flex;flex-direction:column;gap:8px}
+.stats-day{
+  display:grid;grid-template-columns:50px minmax(0,1fr) auto;gap:10px;align-items:center;
+  border:1px solid #293851;background:#111a2b;border-radius:16px;padding:11px
+}
+.stats-day.win{border-color:#2f6d54;background:linear-gradient(100deg,#122a24,#111a2b 46%)}
+.stats-day.loss{border-color:#3b4455}
+.stats-day.pending{opacity:.78}
+.stats-day.is-main{box-shadow:inset 3px 0 0 #efc65d}
+.stats-date{width:50px;height:58px;border-radius:12px;background:#182641;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.stats-date small{font-size:9px;color:#8295b1;font-weight:800}.stats-date b{font-size:21px;line-height:1.05}.stats-date span{font-size:8px;color:#72849f;margin-top:3px}
+.stats-day-body{min-width:0}
+.stats-day-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.stats-core{display:grid;grid-template-columns:auto 29px auto 29px;gap:4px;align-items:center}
+.stats-core span{font-size:9px;color:#8496b1}.stats-core b{height:27px;border-radius:8px;background:#213454;display:grid;place-items:center;font-size:12px}
+.stats-main-badge{font-style:normal;font-size:8px;font-weight:900;color:#f4d980;background:#44391d;border-radius:999px;padding:4px 6px}
+.stats-result-line{display:flex;justify-content:space-between;gap:8px;margin-top:7px;font-size:11px}
+.stats-result-line span{color:#8496b1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.stats-result-line b{font-size:11px;text-align:right}
+.stats-any-line{display:flex;gap:7px;margin-top:4px;min-width:0}.stats-any-line span{font-size:9px;color:#6f84a2;white-space:nowrap}.stats-any-line small{font-size:9px;color:#91a5c0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stats-state{min-width:47px;text-align:center;border-radius:999px;padding:6px 7px;font-size:9px;font-weight:900}
+.stats-state.win{background:#174333;color:#8de3b9}.stats-state.loss{background:#302a31;color:#d8a8ae}.stats-state.pending{background:#293244;color:#91a3bf}
+
+@media(max-width:430px){
+  .bottom-nav{gap:1px;padding-left:5px;padding-right:5px}
+  .bottom-nav button{font-size:8px;padding-left:0;padding-right:0}
+  .nav-icon{font-size:17px}
+  .stats-kpi{padding:11px}.stats-kpi b{font-size:23px}
+  .stats-day{grid-template-columns:46px minmax(0,1fr) auto;gap:8px;padding:9px}
+  .stats-date{width:46px;height:55px}
+  .stats-result-line{display:block}.stats-result-line b{display:block;text-align:left;margin-top:2px}
+  .stats-core{grid-template-columns:auto 27px auto 27px}
+  .stats-state{min-width:43px;font-size:8px;padding:5px}
+}

@@ -11,10 +11,11 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
   <link rel="stylesheet" href="./assets/style.v43.css">
+  <link rel="stylesheet" href="./assets/stats.v44.css">
   <title>XSKT V5.1</title>
 </head>
 <body>
-<div id="app"><div class="build-version">v4.3</div>
+<div id="app"><div class="build-version">v4.4</div>
   <header class="app-header">
     <div>
       <div class="eyebrow">XSKT · V5.1 · QUANT</div>
@@ -92,6 +93,32 @@
       <div class="section-title">Bảng 00–99</div>
       <div id="numberGrid" class="history-number-grid"></div>
       <div id="compareWarning" class="method-note warning compare-warning"></div>
+    </section>
+
+    <!-- PERFORMANCE STATS -->
+    <section id="screen-stats" class="screen">
+      <div class="period-toolbar">
+        <button id="statsPrev" class="round-btn" aria-label="Tháng trước">‹</button>
+        <button id="statsPeriod" class="period-label"></button>
+        <button id="statsNext" class="round-btn" aria-label="Tháng sau">›</button>
+      </div>
+      <div class="method-hero stats-hero">
+        <div class="method-kicker">PERFORMANCE CHECK · V5.1</div>
+        <h2>Thống kê Chủ 1 · Chủ 2</h2>
+        <p>Đối chiếu hai số chủ với kết quả thực tế theo ngày. Tách riêng Đài 1 và Any Station; thống kê này không sửa số V5.1.</p>
+      </div>
+      <div id="statsFreshness" class="stats-freshness"></div>
+      <div id="statsKpis" class="stats-kpi-grid"></div>
+      <div id="statsBaseline" class="stats-baseline"></div>
+      <div class="section-title">Kết quả từng ngày</div>
+      <div id="statsFilter" class="segmented stats-filter">
+        <button data-stats-filter="ALL" class="active">Tất cả</button>
+        <button data-stats-filter="WIN">WIN</button>
+        <button data-stats-filter="MISS">MISS</button>
+        <button data-stats-filter="MAIN">Ngày chính</button>
+      </div>
+      <div id="statsSummary" class="stats-summary"></div>
+      <div id="statsDays" class="stats-days"></div>
     </section>
 
     <!-- ALL DAYS -->
@@ -361,6 +388,9 @@
     <button data-screen="compare">
       <span class="nav-icon">≋</span><span>Đối chiếu</span>
     </button>
+    <button data-screen="stats">
+      <span class="nav-icon">％</span><span>Thống kê</span>
+    </button>
     <button data-screen="all">
       <span class="nav-icon">☷</span><span>Tất cả ngày</span>
     </button>
@@ -397,6 +427,7 @@
 <script src="./data/history/research-summary.v43.js"></script>
 <script src="./data/history/anomaly-history.v43.js"></script>
 <script src="./assets/app.v43.js"></script>
+<script src="./assets/stats.v44.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   let refreshing = false;
@@ -408,7 +439,7 @@ if ('serviceWorker' in navigator) {
   });
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js?v=43', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js?v=44', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.error('Service Worker registration failed:', err);
