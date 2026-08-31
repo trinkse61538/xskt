@@ -1,6 +1,6 @@
-const CACHE_VERSION='xskt-v51-pwa-v44-performance-stats';
+const CACHE_VERSION='xskt-v51-pwa-v45-mobile-guide';
 const APP_SHELL=[
-  '/','/index.html','/assets/style.v43.css','/assets/stats.v44.css','/assets/app.v43.js','/assets/stats.v44.js',
+  '/','/index.html','/assets/style.v43.css','/assets/stats.v44.css','/assets/guide.v45.css','/assets/app.v43.js','/assets/stats.v44.js','/assets/guide.v45.js',
   '/data/v51-2026-2050.v41.js','/data/history/recent-history.v40.js',
   '/data/history/research-summary.v43.js','/data/history/anomaly-history.v43.js','/manifest.webmanifest',
   '/icons/icon-192.png','/icons/icon-512.png','/icons/apple-touch-icon.png','/offline.html'

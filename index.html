@@ -12,10 +12,11 @@
   <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
   <link rel="stylesheet" href="./assets/style.v43.css">
   <link rel="stylesheet" href="./assets/stats.v44.css">
+  <link rel="stylesheet" href="./assets/guide.v45.css">
   <title>XSKT V5.1</title>
 </head>
 <body>
-<div id="app"><div class="build-version">v4.4</div>
+<div id="app"><div class="build-version">v4.5</div>
   <header class="app-header">
     <div>
       <div class="eyebrow">XSKT · V5.1 · QUANT</div>
@@ -119,6 +120,43 @@
       </div>
       <div id="statsSummary" class="stats-summary"></div>
       <div id="statsDays" class="stats-days"></div>
+    </section>
+
+    <!-- STOP-ON-WIN GUIDE -->
+    <section id="screen-guide" class="screen">
+      <div class="period-toolbar">
+        <button id="guidePrev" class="round-btn" aria-label="Tháng trước">‹</button>
+        <button id="guidePeriod" class="period-label"></button>
+        <button id="guideNext" class="round-btn" aria-label="Tháng sau">›</button>
+      </div>
+      <div class="method-hero">
+        <div class="method-kicker">STOP-ON-WIN · MONEY PLAN</div>
+        <h2>Hướng dẫn đánh</h2>
+        <p>Chọn số ngày và tiền ngày 1. App lấy Chủ 1 · Chủ 2 từ V5.1 và tính mức cược theo bội nhỏ nhất để một nháy có thể cover toàn bộ phần thua trước đó.</p>
+      </div>
+      <div class="guide-controls">
+        <div class="guide-control-label"><span>Số ngày trong tháng</span><b>Chọn một chu kỳ</b></div>
+        <div id="guideDayCount" class="segmented">
+          <button data-days="4" class="active">4 ngày</button>
+          <button data-days="7">7 ngày</button>
+          <button data-days="15">15 ngày</button>
+          <button data-days="20">20 ngày</button>
+        </div>
+        <div class="guide-stake-wrap">
+          <div class="guide-control-label"><span>Tiền ngày 1</span><b>Mỗi số</b></div>
+          <div class="guide-stake-input">
+            <input id="guideStake" type="number" min="1000" step="15000" value="75000" inputmode="numeric" aria-label="Tiền cược mỗi số ngày 1">
+            <span>2 số / ngày</span>
+          </div>
+          <div class="guide-hint">Mặc định 75k/số = 150k/ngày. Tỷ lệ tính cố định theo giả định 15k → 80k cho mỗi nháy.</div>
+        </div>
+      </div>
+      <div id="guideSummary"></div>
+      <div class="section-title">Ngày V5.1 được chọn</div>
+      <div id="guideDates" class="guide-date-list"></div>
+      <div class="section-title">Mức cược stop-on-win</div>
+      <div id="guidePlan" class="guide-plan-list"></div>
+      <div id="guideFormula" class="guide-formula"></div>
     </section>
 
     <!-- ALL DAYS -->
@@ -382,6 +420,9 @@
     <button data-screen="main">
       <span class="nav-icon">★</span><span>4 ngày chính</span>
     </button>
+    <button data-screen="guide">
+      <span class="nav-icon">◎</span><span>Hướng dẫn</span>
+    </button>
     <button data-screen="calendar">
       <span class="nav-icon">▦</span><span>Lịch tháng</span>
     </button>
@@ -397,7 +438,24 @@
     <button data-screen="method">
       <span class="nav-icon">ⓘ</span><span>Quy ước</span>
     </button>
+    <a id="moreNav" class="nav-more" href="#more" aria-label="Mở thêm menu">
+      <span class="nav-icon">•••</span><span>Thêm</span>
+    </a>
   </nav>
+
+  <!-- MOBILE MORE NAV -->
+  <div id="moreNavOverlay" class="more-nav-overlay" hidden>
+    <div class="more-nav-backdrop" data-close-more></div>
+    <div class="more-nav-sheet" role="dialog" aria-modal="true" aria-label="Menu thêm">
+      <div class="more-nav-head"><b>Thêm</b><button data-close-more aria-label="Đóng">×</button></div>
+      <div class="more-nav-grid">
+        <button data-more-screen="calendar"><span>▦</span><div>Lịch tháng<small>Xem toàn bộ lịch V5.1</small></div></button>
+        <button data-more-screen="compare"><span>≋</span><div>Đối chiếu<small>Recent Form · Station Match</small></div></button>
+        <button data-more-screen="all"><span>☷</span><div>Tất cả ngày<small>Lọc toàn bộ dữ liệu</small></div></button>
+        <button data-more-screen="method"><span>ⓘ</span><div>Quy ước<small>Công thức & phương pháp</small></div></button>
+      </div>
+    </div>
+  </div>
 
   <!-- DETAIL SHEET -->
   <div id="detailOverlay" class="detail-overlay" hidden>
@@ -428,6 +486,7 @@
 <script src="./data/history/anomaly-history.v43.js"></script>
 <script src="./assets/app.v43.js"></script>
 <script src="./assets/stats.v44.js"></script>
+<script src="./assets/guide.v45.js"></script>
 <script>
 if ('serviceWorker' in navigator) {
   let refreshing = false;
@@ -439,7 +498,7 @@ if ('serviceWorker' in navigator) {
   });
   window.addEventListener('load', async () => {
     try {
-      const reg = await navigator.serviceWorker.register('/sw.js?v=44', { updateViaCache: 'none' });
+      const reg = await navigator.serviceWorker.register('/sw.js?v=45', { updateViaCache: 'none' });
       await reg.update();
     } catch (err) {
       console.error('Service Worker registration failed:', err);
