@@ -81,3 +81,15 @@
 .guide-start-input button{border:1px solid #30445f;background:#17243a;color:#cbd8eb;border-radius:12px;padding:11px 12px;font-size:11px;font-weight:800;min-height:44px}
 .guide-summary-grid small{display:block;color:#8295b0;font-size:9px;margin-top:3px}
 @media(max-width:420px){.guide-start-input{grid-template-columns:1fr}.guide-start-input button{width:100%}}
+
+/* v4.7 · best-day selection + mobile control cleanup */
+@media(max-width:560px){
+  #screen-guide #guideDayCount{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;overflow:visible;padding-top:9px}
+  #screen-guide #guideDayCount button{width:100%;min-width:0;padding:9px 5px;text-align:center}
+  .guide-start-input{grid-template-columns:minmax(0,1fr)}
+  .guide-start-input input{display:block;min-height:48px}
+  .guide-start-input button{width:100%;white-space:normal}
+}
+@media(max-width:360px){
+  #screen-guide #guideDayCount{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

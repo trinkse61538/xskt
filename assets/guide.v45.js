@@ -115,15 +115,41 @@
     return h.anyState === 'loss' ? 'Không trúng' : 'Chưa đủ kết quả';
   }
 
-  function consecutiveDays(startDate,count) {
+  function rankBestDays(rows,count) {
+    return [...rows].sort((a,b) =>
+      statusWeight(a.status) - statusWeight(b.status) ||
+      priority(b) - priority(a) ||
+      Number(a.monthRank || 999) - Number(b.monthRank || 999) ||
+      a.date.localeCompare(b.date)
+    ).slice(0,count).sort((a,b) => a.date.localeCompare(b.date));
+  }
+
+  function monthEndISO(year,month) {
+    const last = new Date(year,month,0).getDate();
+    return `${year}-${String(month).padStart(2,'0')}-${String(last).padStart(2,'0')}`;
+  }
+
+  function candidateDaysFromStart(startDate,count) {
     if (!startDate) return [];
-    return DATA.filter(r => r.date >= startDate)
-      .sort((a,b) => a.date.localeCompare(b.date))
-      .slice(0,count);
+    let [year,month] = startDate.split('-').map(Number);
+    let endDate = monthEndISO(year,month);
+    let rows = DATA.filter(r => r.date >= startDate && r.date <= endDate);
+
+    while (rows.length < count && (year < 2050 || month < 12)) {
+      month++;
+      if (month > 12) { month = 1; year++; }
+      endDate = monthEndISO(year,month);
+      rows = DATA.filter(r => r.date >= startDate && r.date <= endDate);
+    }
+    return rows;
+  }
+
+  function bestDaysFromStart(startDate,count) {
+    return rankBestDays(candidateDaysFromStart(startDate,count),count);
   }
 
   function selectedDays() {
-    return guideStartDate ? consecutiveDays(guideStartDate,guideDays) : recommendedDays(guideYear,guideMonth,guideDays);
+    return guideStartDate ? bestDaysFromStart(guideStartDate,guideDays) : recommendedDays(guideYear,guideMonth,guideDays);
   }
 
   function setGuideStartDate(iso) {
@@ -178,12 +204,12 @@
     if (controls && !$('guideStartDate')) {
       controls.insertAdjacentHTML('beforeend',`
         <div class="guide-start-wrap">
-          <div class="guide-control-label"><span>Ngày bắt đầu chu kỳ</span><b>Tùy chọn</b></div>
+          <div class="guide-control-label"><span>Mốc bắt đầu chọn ngày</span><b>Tùy chọn</b></div>
           <div class="guide-start-input">
-            <input id="guideStartDate" type="date" min="2026-01-01" max="2050-12-31" aria-label="Ngày bắt đầu chu kỳ">
+            <input id="guideStartDate" type="date" min="2026-01-01" max="2050-12-31" aria-label="Mốc bắt đầu chọn ngày">
             <button id="guideClearStart" type="button">Dùng ngày ưu tiên</button>
           </div>
-          <div class="guide-hint">Bỏ trống: chọn N ngày V5.1 ưu tiên trong tháng. Nhập ngày: ngày đó là #1 và app đếm liên tiếp đủ N ngày, kể cả qua tháng mới.</div>
+          <div class="guide-hint">Bỏ trống: chọn N ngày V5.1 tốt nhất trong tháng. Nhập ngày: đây chỉ là <b>mốc sớm nhất</b>; app chọn N ngày tốt nhất từ mốc đó trở đi, không lấy các ngày liền kề. Ưu tiên CHÍNH → PHỤ A → PHỤ B → PHỤ C, sau đó Priority.</div>
         </div>`);
       $('guideStartDate')?.addEventListener('change',e => {
         setGuideStartDate(e.target.value);
@@ -201,15 +227,7 @@
     const rows = DATA.filter(r => r.y === year && r.m === month);
     const mains = rows.filter(r => r.status === 'CHÍNH').sort((a,b) => a.date.localeCompare(b.date));
     if (count === 4 && mains.length >= 4) return mains.slice(0,4);
-
-    const mainDates = new Set(mains.map(r => r.date));
-    const extras = rows.filter(r => !mainDates.has(r.date)).sort((a,b) =>
-      statusWeight(a.status) - statusWeight(b.status) ||
-      priority(b) - priority(a) ||
-      Number(a.monthRank || 999) - Number(b.monthRank || 999) ||
-      a.date.localeCompare(b.date)
-    );
-    return [...mains, ...extras].slice(0,count).sort((a,b) => a.date.localeCompare(b.date));
+    return rankBestDays(rows,count);
   }
 
   function progression(count,base) {
@@ -249,7 +267,7 @@
 
   function renderGuide() {
     ensureGuideExtras();
-    $('guidePeriod').textContent = guideStartDate ? `Từ ${fmtFullDate(guideStartDate)} · ${guideDays} ngày` : `${MONTHS[guideMonth-1]} ${guideYear}`;
+    $('guidePeriod').textContent = guideStartDate ? `Từ ${fmtFullDate(guideStartDate)} · ${guideDays} ngày tốt nhất` : `${MONTHS[guideMonth-1]} ${guideYear}`;
     document.querySelectorAll('#guideDayCount button').forEach(btn => btn.classList.toggle('active',+btn.dataset.days === guideDays));
     if ($('guideStake') && document.activeElement !== $('guideStake')) $('guideStake').value = String(baseStake);
     if ($('guideStep') && document.activeElement !== $('guideStep')) $('guideStep').value = String(Number(stepNumber(baseStake).toFixed(2)));
@@ -260,7 +278,7 @@
       $('guideStakeWarning').innerHTML = stepMsg.html;
     }
     const dateTitle = $('guideDates')?.previousElementSibling;
-    if (dateTitle?.classList.contains('section-title')) dateTitle.textContent = guideStartDate ? `Chu kỳ từ ${fmtFullDate(guideStartDate)}` : 'Ngày V5.1 được chọn';
+    if (dateTitle?.classList.contains('section-title')) dateTitle.textContent = guideStartDate ? `${guideDays} ngày tốt nhất từ ${fmtFullDate(guideStartDate)}` : 'Ngày V5.1 được chọn';
 
     const selected = selectedDays();
     const plan = progression(guideDays,baseStake);
@@ -296,7 +314,7 @@
       <div class="guide-summary-grid">
         <div><span>Số ngày</span><b>${guideDays}</b></div>
         <div><span>Ngày 1 / mỗi số</span><b>${money(baseStake)}</b><small>Bước ${fmtStep(stepNumber(baseStake))}</small></div>
-        <div><span>Ngày bắt đầu</span><b>${guideStartDate ? fmtFullDate(guideStartDate) : 'Theo V5.1'}</b></div>
+        <div><span>Mốc chọn từ</span><b>${guideStartDate ? fmtFullDate(guideStartDate) : 'Theo tháng V5.1'}</b></div>
         <div><span>Vốn tối đa nếu miss hết</span><b>${money(maxCapital)}</b></div>
         <div><span>Mức cao nhất / mỗi số</span><b>${money(maxPerNumber)}</b></div>
       </div>
@@ -347,7 +365,7 @@
       </article>`;
     }).join('');
 
-    $('guideFormula').innerHTML = `Tỷ lệ đang dùng: <b>15k → 80k / nháy</b>. Quy ước <b>1 bước = 15k / số</b>; ví dụ 5 bước = 75k. Mỗi ngày đánh <b>2 số</b>. Mức ngày sau vẫn theo <b>bội của tiền ngày 1</b> như kế hoạch hiện tại và chọn bội nhỏ nhất để 1 nháy cover toàn bộ tiền đã cược trước đó.<br><br><b>Ngày bắt đầu:</b> bỏ trống để dùng các ngày V5.1 ưu tiên trong tháng; nhập ngày để reset một chu kỳ mới từ đúng ngày đó và đếm liên tiếp N ngày.<br><br><b>Review lịch sử:</b> WIN/MISS được chấm theo Đài 1; Any Station hiển thị thêm để đối chiếu. Dữ liệu hiện xác định số có xuất hiện hay không, không dùng để khẳng định số nháy lặp; P/L review vì vậy lấy mức tối thiểu <b>1 nháy</b> khi WIN.`;
+    $('guideFormula').innerHTML = `Tỷ lệ đang dùng: <b>15k → 80k / nháy</b>. Quy ước <b>1 bước = 15k / số</b>; ví dụ 5 bước = 75k. Mỗi ngày đánh <b>2 số</b>. Mức ngày sau vẫn theo <b>bội của tiền ngày 1</b> như kế hoạch hiện tại và chọn bội nhỏ nhất để 1 nháy cover toàn bộ tiền đã cược trước đó.<br><br><b>Chọn ngày:</b> 4 ngày vẫn giữ 4 ngày CHÍNH khi dùng chế độ theo tháng. Với 7/10/15/20/25 ngày, app chọn các ngày V5.1 tốt nhất theo nhóm CHÍNH → PHỤ A → PHỤ B → PHỤ C, rồi Priority. Nếu nhập mốc bắt đầu, app chỉ xét các ngày từ mốc đó trở đi và vẫn chọn ngày tốt nhất — <b>không lấy ngày liên tiếp</b>.<br><br><b>Review lịch sử:</b> WIN/MISS được chấm theo Đài 1; Any Station hiển thị thêm để đối chiếu. Dữ liệu hiện xác định số có xuất hiện hay không, không dùng để khẳng định số nháy lặp; P/L review vì vậy lấy mức tối thiểu <b>1 nháy</b> khi WIN.`;
   }
 
   $('guidePrev')?.addEventListener('click',() => shiftMonth(-1));
